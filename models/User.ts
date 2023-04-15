@@ -6,9 +6,12 @@ export interface IUser {
   _id: Schema.Types.ObjectId
   name: string
   email: string
-  password: string
+  mobile: number
+  password?: string
   resetPasswordToken?: string
   resetPasswordExpire?: string
+  otp?: string
+  otpExpire?: Date
   confirmed: boolean
   blocked: boolean
   createdAt?: Date
@@ -18,9 +21,12 @@ const userSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowercase: true },
-    password: { type: String, required: true },
+    mobile: { type: Number, required: true, unique: true },
+    password: String,
     resetPasswordToken: String,
     resetPasswordExpire: Date,
+    otp: String,
+    otpExpire: Date,
     confirmed: { type: Boolean, default: false },
     blocked: { type: Boolean, default: false },
   },
@@ -54,6 +60,18 @@ userSchema.methods.getResetPasswordToken = function () {
 
   this.resetPasswordExpire = Date.now() + 10 * (60 * 1000) // Ten Minutes
 
+  return resetToken
+}
+
+userSchema.methods.getRandomOtp = function () {
+  let resetToken = Math.floor(Math.random() * 10000)
+  resetToken =
+    resetToken.toString().length !== 4
+      ? Math.floor(Math.random() * 10000)
+      : resetToken
+
+  this.otp = resetToken.toString()
+  this.otpExpire = Date.now() + 10 * (60 * 1000) // Ten Minutes
   return resetToken
 }
 

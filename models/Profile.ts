@@ -9,6 +9,9 @@ export interface IProfile {
   mobile?: number
   bio?: string
   user: Schema.Types.ObjectId
+  numberOfTimes?: number
+  favoriteBarber?: string
+
   createdAt?: Date
 }
 
@@ -19,6 +22,9 @@ const profileSchema = new Schema<IProfile>(
     address: String,
     mobile: Number,
     bio: String,
+    numberOfTimes: Number,
+    favoriteBarber: String,
+
     user: {
       type: Schema.Types.ObjectId,
       ref: User,

@@ -57,6 +57,7 @@ handler.get(
       if (userObject) {
         userObject.name = users.name
         userObject.email = users.email
+        userObject.mobile = users.mobile
         userObject.password = users.password
         userObject.confirmed = true
         userObject.blocked = false
@@ -65,6 +66,7 @@ handler.get(
           _id: users._id,
           name: users.name,
           email: users.email,
+          mobile: users.mobile,
           password: users.password,
           confirmed: true,
           blocked: false,

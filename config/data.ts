@@ -12,6 +12,24 @@ const roles = [
     description: 'Default role given to authenticated user.',
     type: 'AUTHENTICATED',
   },
+  {
+    _id: '5e0af1c63b6482125c1b44cc',
+    name: 'Client',
+    description: 'Default role given to client user.',
+    type: 'CLIENT',
+  },
+  {
+    _id: '5e0af1c63b6482125c1b44cd',
+    name: 'Admin',
+    description: 'Default role given to admin user.',
+    type: 'ADMIN',
+  },
+  {
+    _id: '5e0af1c63b6482125c1b44ce',
+    name: 'Barber',
+    description: 'Default role given to barber user.',
+    type: 'BARBER',
+  },
 ]
 
 const users = {
@@ -19,6 +37,7 @@ const users = {
   name: 'Ahmed Ibrahim',
   email: 'info@ahmedibra.com',
   password: '123456',
+  mobile: 615301507,
   confirmed: true,
   blocked: false,
 }
@@ -282,6 +301,45 @@ const permissions = [
     description: 'Client Permission',
     route: '/api/auth/client-permissions/:id',
     name: 'ClientPermissions',
+    method: 'DELETE',
+  },
+
+  // ================== MOBILE ======================
+
+  //   Barbershop
+  {
+    _id: '643aa8570b370bf6d90c4195',
+    description: 'Get all barbershops',
+    route: '/api/mobile/barbershops',
+    name: 'Barbershops',
+    method: 'GET',
+  },
+  {
+    _id: '643aa8570b370bf6d90c4196',
+    description: 'Create barbershop',
+    route: '/api/mobile/barbershops',
+    name: 'Barbershops',
+    method: 'POST',
+  },
+  {
+    _id: '643aa8570b370bf6d90c4199',
+    description: 'Get single barbershop',
+    route: '/api/mobile/barbershops/:id',
+    name: 'Barbershops',
+    method: 'GET',
+  },
+  {
+    _id: '643aa8570b370bf6d90c4197',
+    description: 'Update barbershop',
+    route: '/api/mobile/barbershops/:id',
+    name: 'Barbershops',
+    method: 'PUT',
+  },
+  {
+    _id: '643aa8570b370bf6d90c4198',
+    description: 'Delete barbershop',
+    route: '/api/mobile/barbershops/:id',
+    name: 'Barbershops',
     method: 'DELETE',
   },
 ]

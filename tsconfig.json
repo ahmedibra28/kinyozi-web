@@ -20,7 +20,8 @@
     "global.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "HoC/withAuth.js"
+    "HOC/withAuth.js",
+    "server.js"
   ],
   "exclude": ["node_modules"]
 }
