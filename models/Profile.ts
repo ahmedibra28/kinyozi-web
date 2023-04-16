@@ -12,6 +12,11 @@ export interface IProfile {
   numberOfTimes?: number
   favoriteBarber?: string
 
+  rating?: {
+    average: number
+    count: number
+  }
+
   createdAt?: Date
 }
 
@@ -24,6 +29,11 @@ const profileSchema = new Schema<IProfile>(
     bio: String,
     numberOfTimes: Number,
     favoriteBarber: String,
+
+    rating: {
+      average: { type: Number, default: 0 },
+      count: { type: Number, default: 0 },
+    },
 
     user: {
       type: Schema.Types.ObjectId,

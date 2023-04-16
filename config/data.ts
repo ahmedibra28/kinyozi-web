@@ -342,6 +342,94 @@ const permissions = [
     name: 'Barbershops',
     method: 'DELETE',
   },
+
+  //   Appointment
+  {
+    _id: '643bde226e2f031ae50db350',
+    description: 'Get all appointments',
+    route: '/api/mobile/appointments',
+    name: 'Appointments',
+    method: 'GET',
+  },
+  {
+    _id: '643bde226e2f031ae50db351',
+    description: 'Create appointment',
+    route: '/api/mobile/appointments',
+    name: 'Appointments',
+    method: 'POST',
+  },
+  {
+    _id: '643bde226e2f031ae50db352',
+    description: 'Get single appointment',
+    route: '/api/mobile/appointments/:id',
+    name: 'Appointments',
+    method: 'GET',
+  },
+  {
+    _id: '643bde226e2f031ae50db353',
+    description: 'Update appointment date',
+    route: '/api/mobile/appointments/:id',
+    name: 'Appointments',
+    method: 'PUT',
+  },
+  {
+    _id: '643bde226e2f031ae50db354',
+    description: 'Delete appointment',
+    route: '/api/mobile/appointments/:id',
+    name: 'Appointments',
+    method: 'DELETE',
+  },
+  {
+    _id: '643bde226e2f031ae50db355',
+    description: 'Get pending appointments',
+    route: '/api/mobile/appointments/pending-appointments',
+    name: 'Appointments',
+    method: 'GET',
+  },
+  {
+    _id: '643bde226e2f031ae50db356',
+    description: 'Get last appointment',
+    route: '/api/mobile/appointments/last-appointment',
+    name: 'Appointments',
+    method: 'GET',
+  },
+  {
+    _id: '643bde226e2f031ae50db357',
+    description: 'Update appointment start time',
+    route: '/api/mobile/appointments/start',
+    name: 'Appointments',
+    method: 'PUT',
+  },
+  {
+    _id: '643bde226e2f031ae50db358',
+    description: 'Update appointment end time',
+    route: '/api/mobile/appointments/end',
+    name: 'Appointments',
+    method: 'PUT',
+  },
+
+  //   Rating
+  {
+    _id: '643bdfca6e2f031ae50db355',
+    description: 'Get top most rated barbershop',
+    route: '/api/mobile/appointments/ratings',
+    name: 'Ratings',
+    method: 'GET',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db356',
+    description: 'Get unrated appointments',
+    route: '/api/mobile/appointments/ratings/:id',
+    name: 'Ratings',
+    method: 'GET',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db357',
+    description: 'Update appointment rating',
+    route: '/api/mobile/appointments/ratings/:id',
+    name: 'Ratings',
+    method: 'PUT',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }

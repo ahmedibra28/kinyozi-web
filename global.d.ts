@@ -28,6 +28,9 @@ declare global {
       secret: string
       type: string
       option: string
+      startDate: Date
+      endDate: Date
+      barber: string
     }
   }
   interface NextApiResponseExtended extends NextApiResponse {
