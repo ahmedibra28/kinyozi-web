@@ -430,6 +430,38 @@ const permissions = [
     name: 'Ratings',
     method: 'PUT',
   },
+
+  // Payments
+  {
+    _id: '643bdfca6e2f031ae50db358',
+    description: 'Get all payments',
+    route: '/api/mobile/payments',
+    name: 'Payments',
+    method: 'GET',
+  },
+
+  //   Chat
+  {
+    _id: '643bdfca6e2f031ae50db335',
+    description: 'Get list of chats / chat history',
+    route: '/api/mobile/chats/:id/:id',
+    name: 'Chats',
+    method: 'GET',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db336',
+    description: 'Get current chat',
+    route: '/api/mobile/chats',
+    name: 'Chats',
+    method: 'GET',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db337',
+    description: 'Create or update current chat',
+    route: '/api/mobile/chats',
+    name: 'Chats',
+    method: 'POST',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }

@@ -31,6 +31,7 @@ declare global {
       startDate: Date
       endDate: Date
       barber: string
+      user: string[]
     }
   }
   interface NextApiResponseExtended extends NextApiResponse {
