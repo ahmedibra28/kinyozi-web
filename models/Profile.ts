@@ -10,7 +10,12 @@ export interface IProfile {
   bio?: string
   user: Schema.Types.ObjectId
   numberOfTimes?: number
-  favoriteBarber?: string
+  favorite?: string
+
+  city?: string
+  street?: string
+  country?: string
+  numberOfBarbers?: number
 
   rating?: {
     average: number
@@ -28,7 +33,12 @@ const profileSchema = new Schema<IProfile>(
     mobile: Number,
     bio: String,
     numberOfTimes: Number,
-    favoriteBarber: String,
+    favorite: String,
+
+    city: String,
+    street: String,
+    country: { type: String, default: 'Kenya' },
+    numberOfBarbers: Number,
 
     rating: {
       average: { type: Number, default: 0 },

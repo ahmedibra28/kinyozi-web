@@ -41,7 +41,8 @@ handler.post(
       if (!otpGenerate)
         return res.status(400).json({ error: 'OTP not generated' })
 
-      return res.json(user)
+      console.log(user)
+      return res.json({ _id: user._id })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

@@ -19,7 +19,7 @@ handler.post(
         _id,
         otp,
         otpExpire: { $gt: Date.now() },
-      }).select('blocked confirmed otp otpExpire name, mobile')
+      })
 
       if (!user)
         return res.status(400).json({ error: `Invalid OTP or expired` })
@@ -47,16 +47,14 @@ handler.post(
           .status(404)
           .json({ error: 'This user does not have associated role' })
 
-      const profile = await Profile.findOne(
-        { user: user._id },
-        { image: 1, address: 1 }
-      )
+      const profile = await Profile.findOne({ user: user._id }, { address: 1 })
+
       return res.send({
         _id: user._id,
         name: user.name,
         mobile: user.mobile,
+        email: user.email,
         address: profile.address,
-        image: profile.image,
         role: roleObj.role.type,
         token: generateToken(user._id),
       })

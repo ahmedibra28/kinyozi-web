@@ -10,7 +10,8 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { name, address, numberOfTimes, favorite } = req.body
+      const { name, address, city, district, street, numberOfBarbers } =
+        req.body
 
       let mobile = req.body.mobile
 
@@ -54,13 +55,15 @@ handler.post(
         image: `https://ui-avatars.com/api/?uppercase=true&name=${object.name}&background=random&color=random&size=128`,
         mobile,
         address,
-        numberOfTimes,
-        favorite,
+        numberOfBarbers,
+        city,
+        district,
+        street,
       })
 
       await UserRole.create({
         user: object._id,
-        role: '5e0af1c63b6482125c1b44cc', // Client role
+        role: '5e0af1c63b6482125c1b44cd', // Barbershop role
       })
 
       console.log(object)

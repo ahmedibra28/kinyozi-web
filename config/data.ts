@@ -20,9 +20,9 @@ const roles = [
   },
   {
     _id: '5e0af1c63b6482125c1b44cd',
-    name: 'Admin',
-    description: 'Default role given to admin user.',
-    type: 'ADMIN',
+    name: 'Barbershop',
+    description: 'Default role given to barbershop user.',
+    type: 'BARBERSHOP',
   },
   {
     _id: '5e0af1c63b6482125c1b44ce',
@@ -438,6 +438,22 @@ const permissions = [
     route: '/api/mobile/payments',
     name: 'Payments',
     method: 'GET',
+  },
+
+  // Profile
+  {
+    _id: '643bdfca6e2f031ae50db338',
+    description: 'Get profile',
+    route: '/api/mobile/profile',
+    name: 'Profile',
+    method: 'GET',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db339',
+    description: 'Update profile',
+    route: '/api/mobile/profile',
+    name: 'Profile',
+    method: 'POST',
   },
 
   //   Chat

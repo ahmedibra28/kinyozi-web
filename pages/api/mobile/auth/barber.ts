@@ -61,7 +61,8 @@ handler.post(
         role: '5e0af1c63b6482125c1b44ce', // Barber role
       })
 
-      res.status(200).json(object)
+      console.log(object)
+      res.status(200).json({ _id: object._id })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }
