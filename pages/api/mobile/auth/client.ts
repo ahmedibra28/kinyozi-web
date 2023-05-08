@@ -56,6 +56,7 @@ handler.post(
         address,
         numberOfTimes,
         favorite,
+        role: 'CLIENT',
       })
 
       await UserRole.create({

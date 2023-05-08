@@ -54,6 +54,7 @@ handler.post(
         image: `https://ui-avatars.com/api/?uppercase=true&name=${object.name}&background=random&color=random&size=128`,
         mobile,
         address,
+        role: 'BARBER',
       })
 
       await UserRole.create({

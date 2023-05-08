@@ -1,28 +1,27 @@
 import { Schema, model, models } from 'mongoose'
+import User, { IUser } from './User'
 
 export interface IBarbershop {
   _id: Schema.Types.ObjectId
-  name: string
-  image?: string
-  address: string
-  mobile: number
-  country: string
-  city: string
-  district: string
-  street: string
+  barbershop: IUser
+  barbers: [
+    {
+      barber: IUser
+      status: 'active' | 'from barbershop' | 'from barber'
+    }
+  ]
   createdAt?: Date
 }
 
 const barbershopSchema = new Schema<IBarbershop>(
   {
-    name: { type: String, required: true },
-    image: String,
-    address: { type: String, required: true },
-    mobile: { type: Number, required: true, unique: true },
-    country: { type: String, required: true },
-    city: { type: String, required: true },
-    district: { type: String, required: true },
-    street: { type: String, required: true },
+    barbershop: { type: Schema.Types.ObjectId, ref: User },
+    barbers: [
+      {
+        barber: { type: Schema.Types.ObjectId, ref: User },
+        status: { type: String, default: 'active' },
+      },
+    ],
   },
   { timestamps: true }
 )

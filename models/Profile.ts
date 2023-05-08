@@ -16,11 +16,15 @@ export interface IProfile {
   street?: string
   country?: string
   numberOfBarbers?: number
+  role: 'CLIENT' | 'BARBER' | 'BARBER_SHOP'
 
   rating?: {
     average: number
     count: number
   }
+
+  openTime: string
+  isOpen: boolean
 
   createdAt?: Date
 }
@@ -34,6 +38,7 @@ const profileSchema = new Schema<IProfile>(
     bio: String,
     numberOfTimes: Number,
     favorite: String,
+    role: { type: String, required: true },
 
     city: String,
     street: String,
@@ -44,6 +49,9 @@ const profileSchema = new Schema<IProfile>(
       average: { type: Number, default: 0 },
       count: { type: Number, default: 0 },
     },
+
+    openTime: { type: String, default: '09:00 - 18:00' },
+    isOpen: { type: Boolean, default: true },
 
     user: {
       type: Schema.Types.ObjectId,

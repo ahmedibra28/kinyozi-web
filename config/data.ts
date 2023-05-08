@@ -342,6 +342,65 @@ const permissions = [
     name: 'Barbershops',
     method: 'DELETE',
   },
+  {
+    _id: '643aa8570b370bf6d90c4299',
+    description: 'Get my barbershop',
+    route: '/api/mobile/barbershops/me',
+    name: 'Barbershops',
+    method: 'GET',
+  },
+  {
+    _id: '643aa8570b370bf6d90c4399',
+    description: 'Get pending job barbershop',
+    route: '/api/mobile/barbershops/pending',
+    name: 'Barbershops',
+    method: 'GET',
+  },
+  {
+    _id: '643aa8570b370bf6d90c4499',
+    description: 'Send request to barber',
+    route: '/api/mobile/barbershops/request',
+    name: 'Barbershops',
+    method: 'POST',
+  },
+  {
+    _id: '643aa8570b370bf6d90c4799',
+    description: 'Cancel request from barber',
+    route: '/api/mobile/barbershops/request/:id',
+    name: 'Barbershops',
+    method: 'DELETE',
+  },
+  {
+    _id: '643aa8570b370bf6d90c4792',
+    description: 'Accept request from barber',
+    route: '/api/mobile/barbershops/request/:id',
+    name: 'Barbershops',
+    method: 'PUT',
+  },
+
+  // Barber
+  {
+    _id: '643aa8570b370bf6d90c4599',
+    description: 'Send request to barbershop',
+    route: '/api/mobile/barbers/request',
+    name: 'Barbers',
+    method: 'POST',
+  },
+  {
+    _id: '643aa8570b370bf6d90c4699',
+    description: 'Cancel request from barbershop',
+    route: '/api/mobile/barbers/request/:id',
+    name: 'Barbers',
+    method: 'DELETE',
+  },
+
+  {
+    _id: '643aa8570b370bf6d90c4691',
+    description: 'Accept request from barbershop',
+    route: '/api/mobile/barbers/request/:id',
+    name: 'Barbers',
+    method: 'PUT',
+  },
 
   //   Appointment
   {
@@ -454,6 +513,13 @@ const permissions = [
     route: '/api/mobile/profile',
     name: 'Profile',
     method: 'POST',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db340',
+    description: 'Get users profile',
+    route: '/api/mobile/profile/search',
+    name: 'Profile',
+    method: 'GET',
   },
 
   //   Chat

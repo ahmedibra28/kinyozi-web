@@ -1,6 +1,6 @@
 import nc from 'next-connect'
 import { isAuth } from '../../../../utils/auth'
-import Barbershop from '../../../../models/Barbershop'
+import Profile from '../../../../models/Profile'
 import db from '../../../../config/db'
 
 const handler = nc()
@@ -9,17 +9,17 @@ handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const q = req.query && req.query.q
+      const { q, role } = req.query
 
-      let query = Barbershop.find(
-        q ? { name: { $regex: q, $options: 'i' } } : {}
+      let query = Profile.find(
+        q ? { name: { $regex: q, $options: 'i' }, role } : { role }
       )
 
       const page = parseInt(req.query.page) || 1
       const pageSize = parseInt(req.query.limit) || 25
       const skip = (page - 1) * pageSize
-      const total = await Barbershop.countDocuments(
-        q ? { name: { $regex: q, $options: 'i' } } : {}
+      const total = await Profile.countDocuments(
+        q ? { name: { $regex: q, $options: 'i' }, role } : { role }
       )
 
       const pages = Math.ceil(total / pageSize)
@@ -49,14 +49,14 @@ handler.post(
     try {
       const { name, mobile, street, city, country, district } = req.body
 
-      const exist = await Barbershop.findOne({
+      const exist = await Profile.findOne({
         // name: { $regex: `^${name?.trim()}$`, $options: 'i' },
         mobile,
       })
       if (exist)
-        return res.status(400).json({ error: 'Duplicate Barbershop detected' })
+        return res.status(400).json({ error: 'Duplicate Profile detected' })
 
-      const object = await Barbershop.create({
+      const object = await Profile.create({
         name,
         mobile,
         address: `${street?.trim()}, ${district?.trim()}, ${city?.trim()}, ${country?.trim()}`,

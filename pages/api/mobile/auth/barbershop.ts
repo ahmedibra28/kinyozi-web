@@ -3,6 +3,7 @@ import db from '../../../../config/db'
 import Profile from '../../../../models/Profile'
 import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
+import Barbershop from '../../../../models/Barbershop'
 
 const handler = nc()
 
@@ -59,6 +60,7 @@ handler.post(
         city,
         district,
         street,
+        role: 'BARBER_SHOP',
       })
 
       await UserRole.create({
@@ -66,7 +68,9 @@ handler.post(
         role: '5e0af1c63b6482125c1b44cd', // Barbershop role
       })
 
-      console.log(object)
+      await Barbershop.create({
+        barbershop: object._id,
+      })
 
       res.status(200).json({ _id: object._id })
     } catch (error: any) {

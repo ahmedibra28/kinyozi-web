@@ -31,7 +31,9 @@ declare global {
       startDate: Date
       endDate: Date
       barber: string
+      barbershop: string
       user: string[]
+      role: string
     }
   }
   interface NextApiResponseExtended extends NextApiResponse {
