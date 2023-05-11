@@ -15,6 +15,8 @@ export interface IUser {
   confirmed: boolean
   blocked: boolean
   createdAt?: Date
+
+  role?: string
 }
 
 const userSchema = new Schema<IUser>(

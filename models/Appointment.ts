@@ -1,12 +1,14 @@
 import { Schema, model, models } from 'mongoose'
 import User from './User'
+import { IProfile } from './Profile'
 
 export interface IAppointment {
   _id: Schema.Types.ObjectId
-  barber: Schema.Types.ObjectId
+  barber: IProfile
+  barbershop: IProfile
+  client: IProfile
   appointmentDate: Date
-  speciality: string
-  client: Schema.Types.ObjectId
+  specialty: string
   rating: number
   status: 'pending' | 'accepted' | 'rejected'
   start?: Date
@@ -19,9 +21,10 @@ export interface IAppointment {
 const appointmentSchema = new Schema<IAppointment>(
   {
     barber: { type: Schema.Types.ObjectId, ref: User, required: true },
-    appointmentDate: { type: Date, required: true, index: true },
-    speciality: { type: String, required: true },
+    barbershop: { type: Schema.Types.ObjectId, ref: User, required: true },
     client: { type: Schema.Types.ObjectId, ref: User, required: true },
+    appointmentDate: { type: Date, required: true, index: true },
+    specialty: { type: String, required: true },
     rating: { type: Number, default: 0 },
     status: {
       type: String,

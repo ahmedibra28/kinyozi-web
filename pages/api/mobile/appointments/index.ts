@@ -4,6 +4,8 @@ import Appointment from '../../../../models/Appointment'
 import db from '../../../../config/db'
 import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
+import Profile from '../../../../models/Profile'
+import Barbershop from '../../../../models/Barbershop'
 
 const handler = nc()
 handler.use(isAuth)
@@ -44,7 +46,25 @@ handler.get(
 
       query = query.skip(skip).limit(pageSize).sort({ createdAt: -1 }).lean()
 
-      const result = await query
+      let result = await query
+
+      const profile = await Profile.findOne({ user: barber }).lean()
+
+      const barbershop = await Barbershop.findOne(
+        {
+          'barbers.barber': barber,
+          'barbers.status': 'active',
+        },
+        { barbershop: 1 }
+      )
+
+      result = {
+        // @ts-ignore
+        appointments: result,
+        profile: { ...profile, barbershop: barbershop?.barbershop },
+      }
+
+      console.log(result)
 
       res.status(200).json({
         startIndex: skip + 1,
@@ -65,7 +85,9 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { barber, appointmentDate, speciality } = req.body
+      const { barber, day, time, specialty } = req.body
+      const client = req.user._id
+      const appointmentDate = ''
 
       // check if barber exists
       const barberExists = await User.findOne({
@@ -102,7 +124,7 @@ handler.post(
         client: req.user._id,
         barber,
         appointmentDate,
-        speciality,
+        specialty: specialty,
         status: 'pending',
         createdBy: req.user._id,
       })

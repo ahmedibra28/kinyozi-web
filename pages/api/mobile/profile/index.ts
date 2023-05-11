@@ -3,6 +3,7 @@ import db from '../../../../config/db'
 import Profile from '../../../../models/Profile'
 import { isAuth } from '../../../../utils/auth'
 import User from '../../../../models/User'
+import Barbershop from '../../../../models/Barbershop'
 
 const handler = nc()
 
@@ -12,7 +13,26 @@ handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const profile = await Profile.findOne({ user: req.user._id })
+      let profile = await Profile.findOne({ user: req.user._id }).lean()
+
+      if (profile?.role === 'BARBER') {
+        const bShop = await Barbershop.findOne({
+          'barbers.barber': req.user._id,
+          'barbers.status': 'active',
+        }).lean()
+
+        if (!bShop)
+          return res.status(400).json({ error: 'You are not active barber' })
+
+        const barbershop = await Profile.findOne({ user: bShop.barbershop })
+          .select('name image rating businessHours user')
+          .lean()
+
+        if (!barbershop)
+          return res.status(400).json({ error: 'You are not active barber' })
+
+        profile = { ...profile, barbershop }
+      }
 
       res.status(200).json(profile)
     } catch (error: any) {
@@ -31,10 +51,6 @@ handler.post(
 
       if (!profile) return res.status(404).json({ error: 'Profile not found' })
 
-      // if (market && !Markets.includes(market))
-      //   return res.status(400).json({ error: 'Invalid market' })
-
-      // profile.market = market || profile.market
       profile.name = name || profile.name
       profile.address = address || profile.address
 

@@ -43,15 +43,27 @@ handler.put(
     try {
       const { id: barbershop } = req.query
       const barber = req.user._id
+      const { status } = req.body
 
       const cancelObj = await Barbershop.findOne({
         'barbers.barber': barber,
-        'barbers.status': { $ne: 'active' },
+        ...(status === 'fire'
+          ? { 'barbers.status': { $eq: 'active' } }
+          : { 'barbers.status': { $ne: 'active' } }),
         barbershop,
       })
 
       if (!cancelObj)
         return res.status(404).json({ error: 'Barbershop not found' })
+      if (status === 'fire') {
+        cancelObj.barbers = cancelObj.barbers.filter(
+          (item: any) => item.barber?.toString() !== barber?.toString()
+        )
+
+        await cancelObj.save()
+
+        res.status(200).json({ error: `You fired by yourself` })
+      }
 
       cancelObj.barbers = cancelObj.barbers.filter(
         (item: any) =>

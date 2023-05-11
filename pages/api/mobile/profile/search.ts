@@ -35,7 +35,50 @@ handler.get(
 
       let result = await query
 
-      if (role === 'BARBER_SHOP') {
+      if (req?.user?.role === 'CLIENT' && role === 'BARBER_SHOP') {
+        const barbershops = await Promise.all(
+          result.map(async (profile) => {
+            const barbershop = await Barbershop.findOne({
+              barbershop: profile.user,
+            })
+            const barberProfile = await Promise.all(
+              barbershop?.barbers?.map(async (barber: any) => {
+                return await Profile.findOne({
+                  user: barber?.barber,
+                })
+              })
+            )
+            return {
+              barbers: barberProfile,
+              ...profile,
+            }
+          })
+        )
+
+        result = barbershops
+
+        return res.status(200).json({
+          startIndex: skip + 1,
+          endIndex: skip + result.length,
+          count: result.length,
+          page,
+          pages,
+          total,
+          data: result,
+        })
+      }
+
+      if (req?.user?.role !== 'CLIENT' && role === 'BARBER_SHOP') {
+        const checkIfActive = await Barbershop.findOne({
+          'barbers.barber': _id,
+          'barbers.status': 'active',
+        })
+
+        if (checkIfActive)
+          return res
+            .status(400)
+            .json({ error: 'You are already active barber' })
+
         const barbers = await Promise.all(
           result.map(async (profile) => {
             const barbershop = await Barbershop.findOne({
@@ -91,7 +134,7 @@ handler.get(
             user: item.user,
           })
             .lean()
-            .select('_id name image mobile rating user isOpen, openTime')
+            .select('_id name image mobile rating user businessHours')
 
           return {
             ...profiles,

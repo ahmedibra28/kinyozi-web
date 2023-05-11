@@ -31,16 +31,16 @@ export const isAuth = async (
       const userRole = await UserRole.findOne({ user: decoded.id }, { role: 1 })
         .populate({
           path: 'role',
-          select: 'permission',
+          select: 'permission type',
           populate: {
             path: 'permission',
             select: ['method', 'route'],
           },
         })
-        .populate('user', ['-password', '-createdAt', '-updatedAt'])
+        .populate('user', ['-password', '-createdAt', '-updatedAt', '-__v'])
         .lean()
 
-      req.user = userRole?.user
+      req.user = { ...userRole?.user, role: userRole?.role?.type }
 
       const permissions = userRole?.role?.permission?.map(
         (per: IPermission) => ({

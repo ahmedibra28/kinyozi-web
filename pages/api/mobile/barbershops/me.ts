@@ -29,7 +29,7 @@ handler.get(
             user: item.barber,
           })
             .lean()
-            .select('name image mobile role isOpen openTime user rating')
+            .select('name image mobile role businessHours user rating')
         })
       )
 

@@ -23,8 +23,12 @@ export interface IProfile {
     count: number
   }
 
-  openTime: string
-  isOpen: boolean
+  businessHours?: [
+    {
+      day: string
+      hours: string[]
+    }
+  ]
 
   createdAt?: Date
 }
@@ -50,8 +54,12 @@ const profileSchema = new Schema<IProfile>(
       count: { type: Number, default: 0 },
     },
 
-    openTime: { type: String, default: '09:00 - 18:00' },
-    isOpen: { type: Boolean, default: true },
+    businessHours: [
+      {
+        day: String,
+        hours: [String],
+      },
+    ],
 
     user: {
       type: Schema.Types.ObjectId,
