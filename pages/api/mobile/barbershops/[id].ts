@@ -56,8 +56,6 @@ handler.delete(
       if (!object)
         return res.status(400).json({ error: `Barbershop not found` })
 
-      console.log(object)
-
       res.status(200).json({ message: `Barbershop removed` })
     } catch (error: any) {
       res.status(500).json({ error: error.message })

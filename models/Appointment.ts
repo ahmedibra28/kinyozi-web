@@ -8,6 +8,7 @@ export interface IAppointment {
   barbershop: IProfile
   client: IProfile
   appointmentDate: Date
+  appointmentTime: string
   specialty: string
   rating: number
   status: 'pending' | 'accepted' | 'rejected'
@@ -24,6 +25,7 @@ const appointmentSchema = new Schema<IAppointment>(
     barbershop: { type: Schema.Types.ObjectId, ref: User, required: true },
     client: { type: Schema.Types.ObjectId, ref: User, required: true },
     appointmentDate: { type: Date, required: true, index: true },
+    appointmentTime: { type: String, required: true, index: true },
     specialty: { type: String, required: true },
     rating: { type: Number, default: 0 },
     status: {

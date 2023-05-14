@@ -6,6 +6,7 @@ import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
 import Profile from '../../../../models/Profile'
 import Barbershop from '../../../../models/Barbershop'
+import moment from 'moment'
 
 const handler = nc()
 handler.use(isAuth)
@@ -48,7 +49,7 @@ handler.get(
 
       let result = await query
 
-      const profile = await Profile.findOne({ user: barber }).lean()
+      const barberProfile = await Profile.findOne({ user: barber }).lean()
 
       const barbershop = await Barbershop.findOne(
         {
@@ -57,14 +58,16 @@ handler.get(
         },
         { barbershop: 1 }
       )
+      const barbershopProfile = await Profile.findOne({
+        user: barbershop?.barbershop,
+      }).lean()
 
       result = {
         // @ts-ignore
         appointments: result,
-        profile: { ...profile, barbershop: barbershop?.barbershop },
+        barberProfile,
+        barbershopProfile,
       }
-
-      console.log(result)
 
       res.status(200).json({
         startIndex: skip + 1,
@@ -85,27 +88,38 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { barber, day, time, specialty } = req.body
-      const client = req.user._id
-      const appointmentDate = ''
+      const { barber, barbershop, day, time, specialty } = req.body
+
+      const body = {
+        barber,
+        barbershop,
+        client: req.user._id,
+        appointmentDate: day,
+        appointmentTime: time,
+        specialty,
+        status: 'pending',
+        rating: 0,
+      }
 
       // check if barber exists
       const barberExists = await User.findOne({
-        _id: barber,
+        _id: body.barber,
         confirmed: true,
         blocked: false,
       })
+      if (!barberExists)
+        return res.status(400).json({ error: 'Barber not found' })
 
       const role = await UserRole.findOne({ user: barber })
         .select('role')
         .populate('role', ['type'])
 
-      if (!barberExists || role.role.type !== 'BARBER')
+      if (role.role.type !== 'BARBER')
         return res.status(400).json({ error: 'Barber not found' })
 
       // check if appointmentDate is less than today
       const today = new Date()
-      if (new Date(appointmentDate) < today)
+      if (new Date(body.appointmentDate) < today)
         return res
           .status(400)
           .json({ error: 'Appointment date cannot be in the past' })
@@ -120,12 +134,34 @@ handler.post(
           .status(400)
           .json({ error: 'Client already has an appointment' })
 
+      const checkIfAvailableAppointment = await Appointment.findOne({
+        barber: body.barber,
+        appointmentDate: body.appointmentDate,
+        appointmentTime: body.appointmentTime,
+        status: { $in: ['pending', 'accepted'] },
+      })
+      if (checkIfAvailableAppointment)
+        return res.status(400).json({ error: 'Barber is not available' })
+
+      const profileBarbershop = await Profile.findOne({
+        user: body.barbershop,
+      })
+      if (!profileBarbershop)
+        return res.status(400).json({ error: 'Barbershop not found' })
+
+      const dayName = moment(body.appointmentDate).format('dddd')
+
+      const checkAvailable = profileBarbershop.businessHours?.find(
+        (item: any) =>
+          item.day === dayName && item.hours.includes(body.appointmentTime)
+      )
+      if (!checkAvailable)
+        return res
+          .status(400)
+          .json({ error: 'Barbershop is not available at the selected time' })
+
       const object = await Appointment.create({
-        client: req.user._id,
-        barber,
-        appointmentDate,
-        specialty: specialty,
-        status: 'pending',
+        ...body,
         createdBy: req.user._id,
       })
       res.status(200).send(object)

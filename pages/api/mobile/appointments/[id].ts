@@ -53,6 +53,7 @@ handler.delete(
     await db()
     try {
       const { id } = req.query
+
       const object = await Appointment.updateOne(
         { _id: id },
         { $set: { status: 'rejected' } }

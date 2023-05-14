@@ -466,6 +466,13 @@ const permissions = [
     name: 'Appointments',
     method: 'PUT',
   },
+  {
+    _id: '643bde226e2f031ae50db366',
+    description: 'Get my appointment',
+    route: '/api/mobile/appointments/me',
+    name: 'Appointments',
+    method: 'GET',
+  },
 
   //   Rating
   {
