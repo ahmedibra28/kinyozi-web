@@ -15,20 +15,16 @@ handler.delete(
 
       const cancelObj = await Barbershop.findOne({
         'barbers.barber': barber,
-        'barbers.status': { $ne: 'active' },
         barbershop,
       })
 
       if (!cancelObj)
         return res.status(404).json({ error: 'Barbershop not found' })
 
-      cancelObj.barbers = cancelObj.barbers.filter(
-        (item: any) =>
-          item.barber?.toString() !== barber?.toString() &&
-          item.status !== 'active'
+      await Barbershop.findOneAndUpdate(
+        { barbershop, 'barbers.barber': barber },
+        { $pull: { barbers: { barber } } }
       )
-
-      await cancelObj.save()
 
       res.status(200).json({ error: `Request has cancelled` })
     } catch (error: any) {
@@ -45,38 +41,59 @@ handler.put(
       const barber = req.user._id
       const { status } = req.body
 
-      const cancelObj = await Barbershop.findOne({
-        'barbers.barber': barber,
-        ...(status === 'fire'
-          ? { 'barbers.status': { $eq: 'active' } }
-          : { 'barbers.status': { $ne: 'active' } }),
-        barbershop,
-      })
+      if (status !== 'fire') {
+        const acceptQuery = {
+          barbershop,
+          barbers: {
+            $elemMatch: {
+              barber: barber,
+              status: { $ne: 'active' },
+            },
+          },
+        }
 
-      if (!cancelObj)
-        return res.status(404).json({ error: 'Barbershop not found' })
-      if (status === 'fire') {
-        cancelObj.barbers = cancelObj.barbers.filter(
+        const acceptBarbershop = await Barbershop.findOne(acceptQuery)
+
+        if (!acceptBarbershop)
+          return res.status(404).json({ error: 'Barbershop not found' })
+
+        acceptBarbershop.barbers = acceptBarbershop.barbers.filter(
           (item: any) => item.barber?.toString() !== barber?.toString()
         )
 
-        await cancelObj.save()
+        acceptBarbershop.barbers.push({
+          barber,
+          status: 'active',
+        })
 
-        res.status(200).json({ error: `You fired by yourself` })
+        await acceptBarbershop.save()
+
+        return res.json(acceptBarbershop)
       }
 
-      cancelObj.barbers = cancelObj.barbers.filter(
-        (item: any) =>
-          item.barber?.toString() !== barber?.toString() &&
-          item.status !== 'active'
-      )
-      cancelObj.barbers.push({
-        barber,
-        status: 'active',
-      })
-      await cancelObj.save()
+      const fireQuery = {
+        barbershop,
+        barbers: {
+          $elemMatch: {
+            barber: barber,
+            status: { $eq: 'active' },
+          },
+        },
+      }
 
-      res.status(200).json({ error: `Request has cancelled` })
+      if (status === 'fire') {
+        const fireBarbershop = await Barbershop.findOne(fireQuery)
+        if (!fireBarbershop)
+          return res.status(404).json({ error: 'Barbershop not found' })
+
+        fireBarbershop.barbers = fireBarbershop.barbers.filter(
+          (item: any) => item.barber?.toString() !== barber?.toString()
+        )
+
+        await fireBarbershop.save()
+
+        return res.send('success')
+      }
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

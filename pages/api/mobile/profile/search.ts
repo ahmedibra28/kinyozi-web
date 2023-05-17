@@ -70,9 +70,15 @@ handler.get(
 
       if (req?.user?.role !== 'CLIENT' && role === 'BARBER_SHOP') {
         const checkIfActive = await Barbershop.findOne({
-          'barbers.barber': _id,
-          'barbers.status': 'active',
+          barbers: {
+            $elemMatch: {
+              barber: _id,
+              status: { $eq: 'active' },
+            },
+          },
         })
+
+        console.log(checkIfActive)
 
         if (checkIfActive)
           return res
@@ -95,53 +101,44 @@ handler.get(
       }
 
       if (role === 'BARBER') {
-        const barbershops = await Promise.all(
-          result.map(async (profile) => {
-            const barber = await Barbershop.findOne({
-              'barbers.barber': profile.user,
-              // 'barbers.status': { $ne: 'active' },
-            })
+        const allBarbers = result?.map((item) => item?.user?.toString())
 
+        const barbers = await Barbershop?.find({
+          'barbers.barber': { $in: allBarbers },
+        })
+
+        const inBarbershop = barbers
+          ?.map((item) =>
+            item?.barbers?.map((item: any) => ({
+              barber: item?.barber?.toString(),
+              status: item?.status,
+            }))
+          )
+          ?.flat()
+        const inBarbershopIds = inBarbershop?.map((item) =>
+          item?.barber?.toString()
+        )
+
+        const newBarberIds = allBarbers
+          .filter((barber) => !inBarbershopIds.includes(barber))
+          ?.map((item) => ({ barber: item, status: 'new' }))
+
+        const objects = await Promise.all(
+          [...inBarbershop, ...newBarberIds]?.map(async (barber) => {
+            const profile = await Profile.findOne({
+              user: barber?.barber,
+            }).lean()
             return {
-              barbers: barber?.barbers,
               ...profile,
+              status: barber?.status,
             }
           })
         )
 
-        result = barbershops
+        // console.log(objects?.filter((item) => item?.status !== 'active'))
+
+        return res.json(objects?.filter((item) => item?.status !== 'active'))
       }
-
-      const newResult: { user: string; status: string }[] = []
-
-      result?.forEach((item) => {
-        if (!item?.barbers || item?.barbers?.length === 0) {
-          newResult.push({ user: item?.user, status: 'new' })
-        }
-
-        item?.barbers?.forEach((barber: any) => {
-          if (barber?.status !== 'active') {
-            newResult.push({ user: item?.user, status: barber?.status })
-          }
-        })
-      })
-
-      result = newResult
-
-      result = await Promise.all(
-        result.map(async (item) => {
-          const profiles = await Profile.findOne({
-            user: item.user,
-          })
-            .lean()
-            .select('_id name image mobile rating user businessHours')
-
-          return {
-            ...profiles,
-            ...item,
-          }
-        })
-      )
 
       res.status(200).json({
         startIndex: skip + 1,

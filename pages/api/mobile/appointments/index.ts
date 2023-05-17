@@ -24,8 +24,9 @@ handler.get(
                 $lte: new Date(endDate),
               },
               barber,
+              status: { $ne: 'rejected' },
             }
-          : { barber }
+          : { barber, status: { $ne: 'rejected' } }
       )
 
       const page = parseInt(req.query.page) || 1
@@ -39,17 +40,42 @@ handler.get(
                 $lte: new Date(endDate),
               },
               barber,
+              status: { $ne: 'rejected' },
             }
-          : { barber }
+          : { barber, status: { $ne: 'rejected' } }
       )
 
       const pages = Math.ceil(total / pageSize)
 
-      query = query.skip(skip).limit(pageSize).sort({ createdAt: -1 }).lean()
+      query = query
+        .skip(skip)
+        .limit(pageSize)
+        .sort({ createdAt: -1 })
+        .lean()
+        .select(
+          '_id barber barbershop client appointmentDate appointmentTime status specialty rating'
+        )
 
       let result = await query
 
-      const barberProfile = await Profile.findOne({ user: barber }).lean()
+      result = await Promise.all(
+        result?.map(async (item) => {
+          const clientProfile = await Profile.findOne({
+            user: item?.client,
+          })
+            .lean()
+            .select('_id name image role user mobile')
+
+          return {
+            ...item,
+            clientProfile,
+          }
+        })
+      )
+
+      const barberProfile = await Profile.findOne({ user: barber })
+        .lean()
+        .select('_id name image role rating user mobile')
 
       const barbershop = await Barbershop.findOne(
         {
@@ -60,7 +86,9 @@ handler.get(
       )
       const barbershopProfile = await Profile.findOne({
         user: barbershop?.barbershop,
-      }).lean()
+      })
+        .lean()
+        .select('_id name image role rating user businessHours mobile')
 
       result = {
         // @ts-ignore

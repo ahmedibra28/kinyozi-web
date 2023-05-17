@@ -13,21 +13,17 @@ handler.delete(
       const { id: barber } = req.query
       const barbershop = req.user._id
 
-      const cancelObj = await Barbershop.findOne({
-        'barbers.barber': barber,
-        'barbers.status': { $ne: 'active' },
+      const barbers = await Barbershop.findOne({
         barbershop,
+        'barbers.barber': barber,
       })
 
-      if (!cancelObj) return res.status(404).json({ error: 'Barber not found' })
+      if (!barbers) return res.status(404).json({ error: 'Barber not found' })
 
-      cancelObj.barbers = cancelObj.barbers.filter(
-        (item: any) =>
-          item.barber?.toString() !== barber?.toString() &&
-          item.status !== 'active'
+      await Barbershop.findOneAndUpdate(
+        { barbershop, 'barbers.barber': barber },
+        { $pull: { barbers: { barber } } }
       )
-
-      await cancelObj.save()
 
       res.status(200).json({ error: `Request has cancelled` })
     } catch (error: any) {
@@ -43,6 +39,30 @@ handler.put(
       const { id: barber } = req.query
       const barbershop = req.user._id
       const { status } = req.body
+      console.log(status)
+
+      if (status === 'fire') {
+        const fireQuery = {
+          barbershop,
+          barbers: {
+            $elemMatch: {
+              barber: barber,
+              status: { $eq: 'active' },
+            },
+          },
+        }
+        const fireBarber = await Barbershop.findOne(fireQuery)
+        if (!fireBarber)
+          return res.status(404).json({ error: 'Barber not found' })
+
+        fireBarber.barbers = fireBarber.barbers.filter(
+          (item: any) => item.barber?.toString() !== barber?.toString()
+        )
+
+        await fireBarber.save()
+
+        return res.send('success')
+      }
 
       const cancelObj = await Barbershop.findOne({
         'barbers.barber': barber,

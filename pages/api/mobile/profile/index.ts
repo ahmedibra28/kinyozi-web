@@ -17,12 +17,15 @@ handler.get(
 
       if (profile?.role === 'BARBER') {
         const bShop = await Barbershop.findOne({
-          'barbers.barber': req.user._id,
-          'barbers.status': 'active',
+          barbers: {
+            $elemMatch: {
+              barber: req.user._id,
+              status: { $eq: 'active' },
+            },
+          },
         }).lean()
 
-        if (!bShop)
-          return res.status(400).json({ error: 'You are not active barber' })
+        if (!bShop) return res.status(200).json(profile)
 
         const barbershop = await Profile.findOne({ user: bShop.barbershop })
           .select('name image rating businessHours user')
