@@ -455,14 +455,14 @@ const permissions = [
   {
     _id: '643bde226e2f031ae50db357',
     description: 'Update appointment start time',
-    route: '/api/mobile/appointments/start',
+    route: '/api/mobile/appointments/start/:id',
     name: 'Appointments',
     method: 'PUT',
   },
   {
     _id: '643bde226e2f031ae50db358',
     description: 'Update appointment end time',
-    route: '/api/mobile/appointments/end',
+    route: '/api/mobile/appointments/end/:id',
     name: 'Appointments',
     method: 'PUT',
   },

@@ -11,6 +11,7 @@ export interface IAppointment {
   appointmentTime: string
   specialty: string
   rating: number
+  ratingDescription?: string
   status: 'pending' | 'accepted' | 'rejected'
   start?: Date
   end?: Date
@@ -28,6 +29,7 @@ const appointmentSchema = new Schema<IAppointment>(
     appointmentTime: { type: String, required: true, index: true },
     specialty: { type: String, required: true },
     rating: { type: Number, default: 0 },
+    ratingDescription: String,
     status: {
       type: String,
       enum: ['pending', 'accepted', 'rejected'],

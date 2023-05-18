@@ -2,6 +2,7 @@ import nc from 'next-connect'
 import { isAuth } from '../../../../utils/auth'
 import Appointment from '../../../../models/Appointment'
 import db from '../../../../config/db'
+import Profile from '../../../../models/Profile'
 
 const handler = nc()
 handler.use(isAuth)
@@ -12,8 +13,16 @@ handler.get(
       const { id } = req.query
 
       const object = await Appointment.findById(id)
+        .lean()
+        .select('-__v -createdBy -updatedBy')
+      if (!object)
+        return res.status(404).json({ error: 'Appointment not found' })
 
-      res.status(200).json(object)
+      const profile = await Profile.findOne({ user: object?.client })
+        .lean()
+        .select('name image user')
+
+      res.status(200).json({ ...object, client: profile })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

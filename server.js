@@ -4,6 +4,7 @@ const http = require('http')
 const next = require('next')
 const socketio = require('socket.io')
 const cors = require('cors')
+const socketEvents = require('./socketEvents')
 
 const port = parseInt(process.env.PORT || '3000', 10)
 const dev = process.env.NODE_ENV !== 'production'
@@ -28,16 +29,13 @@ nextApp.prepare().then(async () => {
   app.use('/_next', express.static(path.join(__dirname, './.next')))
 
   io.on('connection', (socket) => {
-    console.log('A user connected')
+    console.log('A user connected ✅💬')
 
     // Handle private messages
-    socket.on('private message', (data) => {
-      const { recipient, message } = data
-      io.to(recipient).emit('private message', { message, sender: socket.id })
-    })
+    socketEvents(socket, io)
 
     socket.on('disconnect', () => {
-      console.log('A user disconnected')
+      console.log('A user disconnected ❌💬')
     })
   })
 
@@ -47,49 +45,3 @@ nextApp.prepare().then(async () => {
     console.log(`> Ready on http://localhost:${port}`)
   })
 })
-
-// This code is for React Native Expo
-// import React, { useEffect, useState } from "react";
-// import io from "socket.io-client";
-
-// const socket = io("http://localhost:3000");
-
-// const PrivateChat = ({ recipient }) => {
-//   const [message, setMessage] = useState("");
-//   const [messages, setMessages] = useState([]);
-
-//   useEffect(() => {
-//     socket.on("private message", (data) => {
-//       setMessages((messages) => [...messages, data]);
-//     });
-
-//     return () => {
-//       socket.off("private message");
-//     };
-//   }, []);
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     socket.emit("private message", { recipient, message });
-//     setMessage("");
-//   };
-
-//   return (
-//     <div>
-//       <h1>Private Chat with {recipient}</h1>
-//       <ul>
-//         {messages.map((msg, idx) => (
-//           <li key={idx}>
-//             {msg.sender}: {msg.message}
-//           </li>
-//         ))}
-//       </ul>
-//       <form onSubmit={handleSubmit}>
-//         <input value={message} onChange={(e) => setMessage(e.target.value)} />
-//         <button>Send</button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default PrivateChat;

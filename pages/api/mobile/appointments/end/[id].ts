@@ -1,7 +1,7 @@
 import nc from 'next-connect'
-import { isAuth } from '../../../../utils/auth'
-import Appointment from '../../../../models/Appointment'
-import db from '../../../../config/db'
+import { isAuth } from '../../../../../utils/auth'
+import Appointment from '../../../../../models/Appointment'
+import db from '../../../../../config/db'
 
 const handler = nc()
 handler.use(isAuth)
@@ -10,7 +10,7 @@ handler.put(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { _id, completedService, amount } = req.body
+      const { _id, service, amount } = req.body
 
       const appointment = await Appointment.findOne({
         _id,
@@ -28,7 +28,7 @@ handler.put(
         return res.status(400).json({ error: 'Amount must be greater than 0' })
 
       appointment.end = Date.now()
-      appointment.completedService = completedService
+      appointment.completedService = service
       appointment.amount = amount
       await appointment.save()
 

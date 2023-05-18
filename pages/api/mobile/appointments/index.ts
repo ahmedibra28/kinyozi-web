@@ -147,7 +147,14 @@ handler.post(
 
       // check if appointmentDate is less than today
       const today = new Date()
-      if (new Date(body.appointmentDate) < today)
+
+      const { appointmentDate, appointmentTime } = body
+
+      const appDate = new Date(
+        `${appointmentDate} ${appointmentTime?.split(' - ')[0]}:0`
+      )
+
+      if (appDate < today)
         return res
           .status(400)
           .json({ error: 'Appointment date cannot be in the past' })
@@ -158,9 +165,7 @@ handler.post(
         status: 'pending',
       })
       if (clientExists)
-        return res
-          .status(400)
-          .json({ error: 'Client already has an appointment' })
+        return res.status(400).json({ error: 'There is a pending appointment' })
 
       const checkIfAvailableAppointment = await Appointment.findOne({
         barber: body.barber,

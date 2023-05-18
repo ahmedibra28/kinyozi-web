@@ -12,52 +12,67 @@ handler.get(
     try {
       const { barber, barbershop } = req.query
 
-      let pendingRequests = await Barbershop.find(
-        barber
-          ? {
-              'barbers.barber': barber,
-              'barbers.status': 'from barbershop',
-            }
-          : {
-              barbershop,
-              'barbers.status': 'from barber',
-            }
-      ).lean()
+      let pendingRequests = []
 
-      if (pendingRequests?.length > 0 && barbershop) {
-        const barbers = pendingRequests
-          ?.map((item) =>
-            item?.barbers?.map((barber: any) =>
-              barber?.status === 'from barber' ? barber : null
-            )
-          )
-          ?.flat()
+      if (barber) {
+        const barberQuery = {
+          barbers: {
+            $elemMatch: {
+              barber: barber,
+              status: { $eq: 'from barbershop' },
+            },
+          },
+        }
+        pendingRequests = await Barbershop.find(barberQuery).lean()
 
-        const items = await Promise.all(
-          barbers.map(async (item) => {
-            return await Profile.findOne({
-              user: item.barber,
+        if (pendingRequests?.length > 0) {
+          const items = await Promise.all(
+            pendingRequests.map(async (item) => {
+              return await Profile.findOne({
+                user: item.barbershop,
+              })
+                .lean()
+                .select('name image mobile role businessHours user rating')
             })
-              .lean()
-              .select('name image mobile role businessHours user rating')
-          })
-        )
+          )
 
-        pendingRequests = items
+          pendingRequests = items
+        }
       }
 
-      if (pendingRequests?.length > 0 && barber) {
-        const items = await Promise.all(
-          pendingRequests.map(async (item) => {
-            return await Profile.findOne({
-              user: item.barbershop,
-            })
-              .lean()
-              .select('name image mobile role businessHours user rating')
-          })
-        )
+      if (barbershop) {
+        const barbershopQuery = {
+          barbershop,
+          barbers: {
+            $elemMatch: {
+              status: { $eq: 'from barber' },
+            },
+          },
+        }
 
-        pendingRequests = items
+        pendingRequests = await Barbershop.find(barbershopQuery).lean()
+
+        if (pendingRequests?.length > 0) {
+          const barbers = pendingRequests
+            ?.map((item) =>
+              item?.barbers?.filter(
+                (barber: any) => barber?.status === 'from barber'
+              )
+            )
+            ?.flat()
+
+          const items = await Promise.all(
+            barbers.map(async (item) => {
+              return await Profile.findOne({
+                user: item.barber,
+              })
+                .lean()
+                .select('name image mobile role businessHours user rating')
+            })
+          )
+
+          pendingRequests = items
+        }
       }
 
       return res.status(200).json(pendingRequests)

@@ -39,7 +39,6 @@ handler.put(
       const { id: barber } = req.query
       const barbershop = req.user._id
       const { status } = req.body
-      console.log(status)
 
       if (status === 'fire') {
         const fireQuery = {
@@ -64,29 +63,32 @@ handler.put(
         return res.send('success')
       }
 
-      const cancelObj = await Barbershop.findOne({
-        'barbers.barber': barber,
-        ...(status === 'accept' && { 'barbers.status': { $ne: 'active' } }),
-        barbershop,
-      })
-
-      if (!cancelObj) return res.status(404).json({ error: 'Barber not found' })
-
-      cancelObj.barbers = cancelObj.barbers.filter(
-        (item: any) =>
-          item.barber?.toString() !== barber?.toString() &&
-          item.status !== 'active'
-      )
       if (status === 'accept') {
+        const cancelObj = await Barbershop.findOne({
+          barbershop,
+          barbers: {
+            $elemMatch: {
+              barber: barber,
+              status: { $ne: 'active' },
+            },
+          },
+        })
+
+        if (!cancelObj)
+          return res.status(404).json({ error: 'Barber not found' })
+
+        cancelObj.barbers = cancelObj.barbers.filter(
+          (item: any) => item.barber?.toString() !== barber?.toString()
+        )
         cancelObj.barbers.push({
           barber,
           status: 'active',
         })
+
+        await cancelObj.save()
+
+        res.status(200).json({ error: `Request has cancelled` })
       }
-
-      await cancelObj.save()
-
-      res.status(200).json({ error: `Request has cancelled` })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

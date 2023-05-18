@@ -17,7 +17,9 @@ handler.get(
         const myAppointment = await Appointment.findOne({
           client: _id,
           status: 'pending',
-        }).lean()
+        })
+          .lean()
+          .select('-createdAt -updatedAt -__v')
 
         if (!myAppointment) return res.json([])
 
@@ -54,8 +56,6 @@ handler.get(
             return { ...item, client }
           })
         )
-
-        console.log(myAppointment)
 
         return res.status(200).json(myAppointment)
       }

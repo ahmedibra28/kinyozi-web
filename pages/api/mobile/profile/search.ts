@@ -78,8 +78,6 @@ handler.get(
           },
         })
 
-        console.log(checkIfActive)
-
         if (checkIfActive)
           return res
             .status(400)
@@ -99,6 +97,8 @@ handler.get(
 
         result = barbers
       }
+
+      console.log(role)
 
       if (role === 'BARBER') {
         const allBarbers = result?.map((item) => item?.user?.toString())
@@ -134,8 +134,6 @@ handler.get(
             }
           })
         )
-
-        // console.log(objects?.filter((item) => item?.status !== 'active'))
 
         return res.json(objects?.filter((item) => item?.status !== 'active'))
       }

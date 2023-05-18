@@ -28,7 +28,7 @@ handler.put(
     await db()
     try {
       const { id } = req.query
-      const { rating } = req.body
+      const { rating, description } = req.body
 
       // rating must be between 1 and 5
       if (Number(rating) < 1 || Number(rating) > 5)
@@ -44,10 +44,17 @@ handler.put(
         return res.status(400).json({ error: `Appointment not found` })
 
       object.rating = rating
+      object.ratingDescription = description
       await object.save()
 
       const result = await Appointment.aggregate([
-        { $match: { barber: object.barber, status: 'accepted' } },
+        {
+          $match: {
+            barber: object.barber,
+            status: 'accepted',
+            rating: { $gt: 0 },
+          },
+        },
         {
           $group: {
             _id: '$barber',
