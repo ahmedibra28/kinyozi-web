@@ -6,7 +6,9 @@ import { isAuth } from '../../../../utils/auth'
 const Payment = []
 
 const handler = nc()
+
 handler.use(isAuth)
+
 handler.get(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()

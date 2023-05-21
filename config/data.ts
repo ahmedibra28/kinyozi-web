@@ -473,6 +473,13 @@ const permissions = [
     name: 'Appointments',
     method: 'GET',
   },
+  {
+    _id: '643bde226e2f031ae50db367',
+    description: 'Get barber services transactions',
+    route: '/api/mobile/appointments/services/transactions',
+    name: 'Appointments',
+    method: 'GET',
+  },
 
   //   Rating
   {
@@ -502,6 +509,13 @@ const permissions = [
     _id: '643bdfca6e2f031ae50db358',
     description: 'Get all payments',
     route: '/api/mobile/payments',
+    name: 'Payments',
+    method: 'GET',
+  },
+  {
+    _id: '643bdfca6e2f031ae50db369',
+    description: 'Get all payment transactions',
+    route: '/api/mobile/payments/transactions',
     name: 'Payments',
     method: 'GET',
   },
