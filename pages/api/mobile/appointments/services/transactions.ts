@@ -3,7 +3,6 @@ import { isAuth } from '../../../../../utils/auth'
 import Appointment from '../../../../../models/Appointment'
 import db from '../../../../../config/db'
 import Profile from '../../../../../models/Profile'
-import moment from 'moment'
 
 const handler = nc()
 handler.use(isAuth)

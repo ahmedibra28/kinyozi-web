@@ -1,9 +1,7 @@
 import nc from 'next-connect'
 import db from '../../../../config/db'
 import User from '../../../../models/User'
-import { generateToken } from '../../../../utils/auth'
 import UserRole from '../../../../models/UserRole'
-import Profile from '../../../../models/Profile'
 
 const handler = nc()
 
@@ -41,8 +39,7 @@ handler.post(
       if (!otpGenerate)
         return res.status(400).json({ error: 'OTP not generated' })
 
-      console.log(user)
-      return res.json({ _id: user._id })
+      return res.json({ _id: user._id, otp: user.otp })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

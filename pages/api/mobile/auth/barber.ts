@@ -27,7 +27,7 @@ handler.post(
       if (mobile.length !== 9)
         return res.status(400).json({ error: 'Invalid mobile number' })
 
-      const email = `${mobile}@timajare.app`
+      const email = `${mobile}@kinyozi.app`
       const confirmed = true
       const blocked = false
 
@@ -63,7 +63,7 @@ handler.post(
       })
 
       console.log(object)
-      res.status(200).json({ _id: object._id })
+      res.status(200).json({ _id: object._id, otp: object.opt })
     } catch (error: any) {
       res.status(500).json({ error: error.message })
     }

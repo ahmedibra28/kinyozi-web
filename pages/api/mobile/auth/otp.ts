@@ -59,6 +59,7 @@ handler.post(
         email: user.email,
         address: profile.address,
         role: profile.role,
+        // @ts-ignore
         userRole: roleObj.role.type,
         image: profile.image,
         rating: profile.rating,

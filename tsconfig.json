@@ -20,7 +20,9 @@
     "global.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "HOC/withAuth.js"
+    "HOC/withAuth.js",
+    "server.js",
+    "socketEvents.js"
   ],
-  "exclude": ["node_modules", "server.js", "socketEvents.js"]
+  "exclude": ["node_modules"]
 }

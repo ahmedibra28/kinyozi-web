@@ -24,11 +24,13 @@ handler.get(
         if (!myAppointment) return res.json([])
 
         const barber = await Profile.findOne({
+          // @ts-ignore
           user: myAppointment?.barber,
         }).lean()
 
         return res.status(200).json({
           ...myAppointment,
+          // @ts-ignore
           barber: { ...barber, user: myAppointment._id },
         })
       }

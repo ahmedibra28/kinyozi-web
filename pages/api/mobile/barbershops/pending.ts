@@ -12,7 +12,7 @@ handler.get(
     try {
       const { barber, barbershop } = req.query
 
-      let pendingRequests = []
+      let pendingRequests: any = []
 
       if (barber) {
         const barberQuery = {
@@ -27,7 +27,7 @@ handler.get(
 
         if (pendingRequests?.length > 0) {
           const items = await Promise.all(
-            pendingRequests.map(async (item) => {
+            pendingRequests.map(async (item: any) => {
               return await Profile.findOne({
                 user: item.barbershop,
               })
@@ -54,7 +54,7 @@ handler.get(
 
         if (pendingRequests?.length > 0) {
           const barbers = pendingRequests
-            ?.map((item) =>
+            ?.map((item: any) =>
               item?.barbers?.filter(
                 (barber: any) => barber?.status === 'from barber'
               )
@@ -62,7 +62,7 @@ handler.get(
             ?.flat()
 
           const items = await Promise.all(
-            barbers.map(async (item) => {
+            barbers.map(async (item: any) => {
               return await Profile.findOne({
                 user: item.barber,
               })

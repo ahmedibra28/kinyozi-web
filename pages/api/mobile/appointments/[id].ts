@@ -18,6 +18,7 @@ handler.get(
       if (!object)
         return res.status(404).json({ error: 'Appointment not found' })
 
+      // @ts-ignore
       const profile = await Profile.findOne({ user: object?.client })
         .lean()
         .select('name image user')

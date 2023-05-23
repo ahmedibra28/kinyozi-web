@@ -3,7 +3,7 @@ import axios from 'axios'
 let baseUrl = 'http://localhost:3000/api'
 
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'https://timajare.app/api'
+  baseUrl = 'https://kinyozi.app/api'
 }
 
 export const userInfo = () => {

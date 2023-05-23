@@ -15,6 +15,7 @@ handler.get(
     try {
       let profile = await Profile.findOne({ user: req.user._id }).lean()
 
+      // @ts-ignore
       if (profile?.role === 'BARBER') {
         const bShop = await Barbershop.findOne({
           barbers: {
@@ -27,6 +28,7 @@ handler.get(
 
         if (!bShop) return res.status(200).json(profile)
 
+        // @ts-ignore
         const barbershop = await Profile.findOne({ user: bShop.barbershop })
           .select('name image rating businessHours user')
           .lean()
