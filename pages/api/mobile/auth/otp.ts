@@ -15,6 +15,47 @@ handler.post(
       const { _id, otp } = req.body
       if (!otp) return res.status(400).json({ error: 'Please enter your OTP' })
 
+      // This is for app store review purpose
+      const tempUser = await User.findOne({ _id })
+      if (!tempUser) return res.status(404).json({ error: 'User not found' })
+
+      if ([615301501, 615301511, 615301521].includes(tempUser.mobile)) {
+        tempUser.otp = undefined
+        tempUser.otpExpire = undefined
+        await tempUser.save()
+
+        const roleObj = await UserRole.findOne({ user: tempUser?._id })
+          .lean()
+          .populate({
+            path: 'role',
+            select: 'type',
+          })
+
+        if (!roleObj)
+          return res
+            .status(404)
+            .json({ error: 'This user does not have associated role' })
+
+        const profile = await Profile.findOne(
+          { user: tempUser._id },
+          { address: 1, image: 1, role: 1, rating: 1 }
+        )
+
+        return res.send({
+          _id: tempUser._id,
+          name: tempUser.name,
+          mobile: tempUser.mobile,
+          email: tempUser.email,
+          address: profile.address,
+          role: profile.role,
+          // @ts-ignore
+          userRole: roleObj.role.type,
+          image: profile.image,
+          rating: profile.rating,
+          token: generateToken(tempUser._id),
+        })
+      }
+
       const user = await User.findOne({
         _id,
         otp,
