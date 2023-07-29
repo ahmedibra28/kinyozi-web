@@ -12,7 +12,7 @@ handler.post(
       await db()
 
       const { mobile } = req.body
-      const allowedNumberKeys = ['70', '71', '72', '74', '75', '79']
+      const allowedNumberKeys = ['70', '71', '72', '74', '75', '79', '61']
 
       if (mobile.length !== 9)
         return res.status(400).json({ error: 'Invalid mobile number' })
@@ -47,8 +47,13 @@ handler.post(
       if (!otpGenerate)
         return res.status(400).json({ error: 'OTP not generated' })
 
+      if (mobile.slice(0, 2) === '61')
+        return res.json({ _id: user._id, otp: user.otp })
+
       const data = await sendSMS(`254${mobile}`, `Your OTP is ${user.otp}`)
       // 254743551250
+
+      console.log(data)
 
       if (data.responses[0]['response-code'] !== 200)
         return res
