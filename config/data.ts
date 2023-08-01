@@ -22,7 +22,7 @@ const roles = [
     _id: '5e0af1c63b6482125c1b44cd',
     name: 'Barbershop',
     description: 'Default role given to barbershop user.',
-    type: 'BARBERSHOP',
+    type: 'BARBER_SHOP',
   },
   {
     _id: '5e0af1c63b6482125c1b44ce',

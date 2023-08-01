@@ -17,7 +17,7 @@ handler.get(
       const appendQuery = {
         ...(role === 'BARBER' && { barber: _id }),
         ...(role === 'CLIENT' && { client: _id }),
-        ...(role === 'BARBERSHOP' && { barbershop: _id }),
+        ...(role === 'BARBER_SHOP' && { barbershop: _id }),
         status: 'accepted',
       }
 
@@ -71,6 +71,8 @@ handler.get(
           },
         },
       ])
+
+      console.log(result)
 
       res.status(200).json({
         startIndex: skip + 1,

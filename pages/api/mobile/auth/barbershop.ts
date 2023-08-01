@@ -15,6 +15,8 @@ handler.post(
       const { name, address, city, district, street, numberOfBarbers, mobile } =
         req.body
 
+      console.log(req.body)
+
       const allowedNumberKeys = ['70', '71', '72', '74', '75', '79']
 
       if (mobile.length !== 9)
