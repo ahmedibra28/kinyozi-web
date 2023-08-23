@@ -5,6 +5,7 @@ import User from '../../../../models/User'
 import UserRole from '../../../../models/UserRole'
 import Barbershop from '../../../../models/Barbershop'
 import { sendSMS } from '../../../../utils/help'
+import { businessHours } from '../../../../utils/businessHours'
 
 const handler = nc()
 
@@ -14,8 +15,6 @@ handler.post(
     try {
       const { name, address, city, district, street, numberOfBarbers, mobile } =
         req.body
-
-      console.log(req.body)
 
       const allowedNumberKeys = ['70', '71', '72', '74', '75', '79']
 
@@ -57,6 +56,7 @@ handler.post(
         district,
         street,
         role: 'BARBER_SHOP',
+        businessHours: businessHours,
       })
 
       await UserRole.create({

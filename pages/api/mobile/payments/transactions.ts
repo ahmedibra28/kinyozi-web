@@ -72,8 +72,6 @@ handler.get(
         },
       ])
 
-      console.log(result)
-
       res.status(200).json({
         startIndex: skip + 1,
         endIndex: skip + result.length,

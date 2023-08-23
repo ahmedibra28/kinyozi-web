@@ -40,7 +40,8 @@ handler.post(
       if (!foundBarber) {
         barbershopObj.barbers.push({
           barber,
-          status: 'from barber',
+          // status: 'from barber',
+          status: 'active',
         })
         await barbershopObj.save()
 

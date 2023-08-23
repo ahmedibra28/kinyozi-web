@@ -98,8 +98,6 @@ handler.get(
         result = barbers
       }
 
-      console.log(role)
-
       if (role === 'BARBER') {
         const allBarbers = result?.map((item) => item?.user?.toString())
 

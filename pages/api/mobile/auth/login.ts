@@ -47,8 +47,10 @@ handler.post(
       if (!otpGenerate)
         return res.status(400).json({ error: 'OTP not generated' })
 
-      if (mobile.slice(0, 2) === '61')
+      if (mobile.slice(0, 2) === '61') {
+        console.log(user)
         return res.json({ _id: user._id, otp: user.otp })
+      }
 
       const data = await sendSMS(`254${mobile}`, `Your OTP is ${user.otp}`)
       // 254743551250

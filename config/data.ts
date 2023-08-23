@@ -53,7 +53,8 @@ const profile = {
 const sort = {
   hidden: 0,
   profile: 1,
-  admin: 2,
+  normal: 2,
+  admin: 3,
 }
 
 const clientPermissions = [
@@ -120,6 +121,14 @@ const clientPermissions = [
     menu: 'admin',
     sort: sort.admin,
     description: 'User Profiles page',
+  },
+  {
+    _id: '637e0261fadbdf65bba855bd',
+    name: 'Notifications',
+    path: '/notifications',
+    menu: 'normal',
+    sort: sort.normal,
+    description: 'Notifications page',
   },
 ]
 
@@ -480,6 +489,13 @@ const permissions = [
     name: 'Appointments',
     method: 'GET',
   },
+  {
+    _id: '643bde226e2f031ae50db368',
+    description: 'Get transactions',
+    route: '/api/mobile/appointments/transactions',
+    name: 'Appointments',
+    method: 'GET',
+  },
 
   //   Rating
   {
@@ -564,6 +580,43 @@ const permissions = [
     route: '/api/mobile/chats',
     name: 'Chats',
     method: 'POST',
+  },
+
+  //   Notification
+  {
+    _id: '64e453eec9eb251f670996a4',
+    description: 'Get notifications',
+    route: '/api/mobile/notifications',
+    name: 'Notifications',
+    method: 'GET',
+  },
+  {
+    _id: '64e453eec9eb251f670996a5',
+    description: 'WEB: Get notifications',
+    route: '/api/notifications',
+    name: 'Notifications',
+    method: 'GET',
+  },
+  {
+    _id: '64e453eec9eb251f670996a6',
+    description: 'WEB: Create notification',
+    route: '/api/notifications',
+    name: 'Notifications',
+    method: 'POST',
+  },
+  {
+    _id: '64e453eec9eb251f670996a7',
+    description: 'WEB: Update notification/:id',
+    route: '/api/notifications',
+    name: 'Notifications',
+    method: 'PUT',
+  },
+  {
+    _id: '64e45406c9eb251f670996a8',
+    description: 'WEB: Delete notification/:id',
+    route: '/api/notifications',
+    name: 'Notifications',
+    method: 'DELETE',
   },
 ]
 

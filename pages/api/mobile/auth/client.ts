@@ -58,8 +58,6 @@ handler.post(
         role: '5e0af1c63b6482125c1b44cc', // Client role
       })
 
-      console.log(object)
-
       const data = await sendSMS(`254${mobile}`, `Your OTP is ${object.otp}`)
       // 254743551250
 
