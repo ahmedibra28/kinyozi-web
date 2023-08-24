@@ -2,6 +2,7 @@ import nc from 'next-connect'
 import { isAuth } from '../../../../utils/auth'
 import Appointment from '../../../../models/Appointment'
 import db from '../../../../config/db'
+import moment from 'moment'
 
 const handler = nc()
 handler.use(isAuth)
@@ -36,7 +37,14 @@ handler.get(
         .populate('client', ['name', 'image'])
         .populate('barbershop', ['name', 'image'])
 
-      const result = await query
+      let result = await query
+
+      result = result?.map((item: any) => ({
+        ...item,
+        appointmentDate: moment(item?.appointmentDate)
+          .add(Number(item?.appointmentTime?.split(' -')?.[0]) - 3, 'hours')
+          .format(),
+      }))
 
       res.status(200).json({
         startIndex: skip + 1,

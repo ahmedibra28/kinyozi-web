@@ -29,6 +29,9 @@ export interface IProfile {
       hours: string[]
     }
   ]
+  settings?: {
+    pushToken: string
+  }
 
   createdAt?: Date
 }
@@ -64,6 +67,10 @@ const profileSchema = new Schema<IProfile>(
     user: {
       type: Schema.Types.ObjectId,
       ref: User,
+    },
+
+    settings: {
+      pushToken: String,
     },
   },
   { timestamps: true }

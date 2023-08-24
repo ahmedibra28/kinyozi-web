@@ -50,7 +50,9 @@ handler.post(
   async (req: NextApiRequestExtended, res: NextApiResponseExtended) => {
     await db()
     try {
-      const { name, address } = req.body
+      const { name, address, settings } = req.body
+
+      console.log(req.body)
 
       const profile = await Profile.findOne({ user: req.user._id })
 
@@ -58,6 +60,9 @@ handler.post(
 
       profile.name = name || profile.name
       profile.address = address || profile.address
+      profile.settings = {
+        pushToken: settings?.pushToken || profile.settings?.pushToken,
+      }
 
       await profile.save()
 

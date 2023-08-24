@@ -13,7 +13,7 @@ import {
 } from '../../components'
 import { DynamicFormProps, inputText, inputTextArea } from '../../utils/dForms'
 import FormView from '../../components/FormView'
-import { FaPenAlt, FaTrash } from 'react-icons/fa'
+import { FaPaperPlane, FaPenAlt, FaTrash } from 'react-icons/fa'
 import moment from 'moment'
 import apiHook from '../../api'
 import { INotification } from '../../models/Notification'
@@ -34,6 +34,12 @@ const Notifications = () => {
     key: ['notifications'],
     method: 'POST',
     url: `notifications`,
+  })?.post
+
+  const sendApi = apiHook({
+    key: ['notifications'],
+    method: 'POST',
+    url: `notifications/send`,
   })?.post
 
   const updateApi = apiHook({
@@ -150,6 +156,11 @@ const Notifications = () => {
       {deleteApi?.isError && (
         <Message variant="danger" value={deleteApi?.error} />
       )}
+      {sendApi?.isError && <Message variant="danger" value={sendApi?.error} />}
+      {sendApi?.isSuccess && (
+        <Message variant="success" value={`${label} has sent successfully.`} />
+      )}
+
       {updateApi?.isSuccess && (
         <Message
           variant="success"
@@ -241,7 +252,13 @@ const Notifications = () => {
                   <td>
                     <div className="btn-group">
                       <button
-                        className="btn btn-primary btn-sm rounded-pill"
+                        className="btn btn-success btn-sm rounded-pill"
+                        onClick={() => sendApi?.mutateAsync({ _id: item._id })}
+                      >
+                        <FaPaperPlane />
+                      </button>
+                      <button
+                        className="btn btn-primary btn-sm rounded-pill mx-1"
                         onClick={() => editHandler(item)}
                         data-bs-toggle="modal"
                         data-bs-target={`#${modal}`}
@@ -250,7 +267,7 @@ const Notifications = () => {
                       </button>
 
                       <button
-                        className="btn btn-danger btn-sm ms-1 rounded-pill"
+                        className="btn btn-danger btn-sm rounded-pill"
                         onClick={() => deleteHandler(item._id)}
                         disabled={deleteApi?.isLoading}
                       >

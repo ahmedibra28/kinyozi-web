@@ -618,6 +618,14 @@ const permissions = [
     name: 'Notifications',
     method: 'DELETE',
   },
+
+  {
+    _id: '64e453eec9eb251f670996a8',
+    description: 'WEB: Send notification',
+    route: '/api/notifications/send',
+    name: 'Notifications',
+    method: 'POST',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }
