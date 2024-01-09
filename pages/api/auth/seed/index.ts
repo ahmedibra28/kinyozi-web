@@ -42,15 +42,15 @@ handler.get(
         }
       })
 
-      if (option === 'reset') {
-        // Delete all existing data
-        await User.deleteMany({})
-        await Profile.deleteMany({})
-        await Role.deleteMany({})
-        await Permission.deleteMany({})
-        await UserRole.deleteMany({})
-        await ClientPermission.deleteMany({})
-      }
+      // if (option === 'reset') {
+      //   // Delete all existing data
+      //   await User.deleteMany({})
+      //   await Profile.deleteMany({})
+      //   await Role.deleteMany({})
+      //   await Permission.deleteMany({})
+      //   await UserRole.deleteMany({})
+      //   await ClientPermission.deleteMany({})
+      // }
 
       // Create users
       let userObject = await User.findById(users._id)

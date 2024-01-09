@@ -130,6 +130,14 @@ const clientPermissions = [
     sort: sort.normal,
     description: 'Notifications page',
   },
+  {
+    _id: '637e0261fadbdf65bba858bd',
+    name: 'Barbershops',
+    path: '/barbershops',
+    menu: 'normal',
+    sort: sort.normal,
+    description: 'Barbershops page',
+  },
 ]
 
 const permissions = [
@@ -311,6 +319,22 @@ const permissions = [
     route: '/api/auth/client-permissions/:id',
     name: 'ClientPermissions',
     method: 'DELETE',
+  },
+
+  //   Barbershop
+  {
+    _id: '637e01fbfadbdf65bba85571',
+    description: 'Barbershops',
+    route: '/api/barbershops',
+    name: 'Barbershops',
+    method: 'GET',
+  },
+  {
+    _id: '637e01fbfadbdf65bba85510',
+    description: 'Barbershop',
+    route: '/api/barbershops/:id',
+    name: 'Barbershops',
+    method: 'PUT',
   },
 
   // ================== MOBILE ======================

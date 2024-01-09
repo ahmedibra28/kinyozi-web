@@ -381,11 +381,20 @@ export const inputCheckBox = (args: DynamicFormProps) => {
 }
 
 export const inputMultipleCheckBox = (args: DynamicFormProps) => {
-  const { register, errors, name, data, label, isRequired = true } = args
+  const {
+    register,
+    errors,
+    name,
+    data,
+    label,
+    isRequired = true,
+    hasLabel = false,
+  } = args
 
   return (
     <div className="mb-3">
       <div className="row g-1 mb-3">
+        {hasLabel && <div className="col-12">{label}</div>}
         {data &&
           data.map((d: any) => (
             <div key={d._id} className="col-12">
