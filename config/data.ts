@@ -320,6 +320,21 @@ const permissions = [
     name: 'Mobile - Transactions',
     method: 'GET',
   },
+  // Unrated Appointments
+  {
+    id: '7KXhE9P2Jg5QyZgjxHg8T',
+    description: 'Get Unrated Appointments by Client ID',
+    route: '/api/mobile/appointments/unrated',
+    name: 'Mobile - Ratings',
+    method: 'GET',
+  },
+  {
+    id: '7KXhE9P2Jg5QyZgjxHg8V',
+    description: 'Update Rating',
+    route: '/api/mobile/appointments/ratings/:id',
+    name: 'Mobile - Ratings',
+    method: 'PUT',
+  },
 ]
 
 export { roles, users, profile, permissions, clientPermissions }

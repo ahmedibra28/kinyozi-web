@@ -34,7 +34,7 @@ model User {
 
   appointmentsAsClient Appointment[] @relation("ClientToAppointment")
   appointmentsAsBarber Appointment[] @relation("BarberToAppointment")
-  rating               Rating[]
+  rating               Rating?
 
   @@map("users")
 }
@@ -102,12 +102,13 @@ model Appointment {
 }
 
 model Transaction {
-  id        String   @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
-  service   String
-  amount    Float
-  rating    Float?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                String   @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
+  service           String
+  amount            Float
+  rating            Float?
+  ratingDescription String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   appointment   Appointment @relation(fields: [appointmentId], references: [id])
   appointmentId String      @unique
@@ -121,7 +122,7 @@ model Rating {
   count   Int
 
   barber   User   @relation(fields: [barberId], references: [id])
-  barberId String
+  barberId String @unique
 
   @@map("ratings")
 }
