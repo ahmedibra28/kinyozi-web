@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String   @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
+  email               String   @unique
+  name                String
+  image               String?
+  mobile              Int      @unique
+  address             String?
+  bio                 String?
+  password            String
+  confirmed           Boolean  @default(false)
+  blocked             Boolean  @default(false)
+  resetPasswordToken  String?
+  resetPasswordExpire BigInt?
+  otp                 String?
+  barbershopId        String?
+  barbershopName      String?
+  numberOfTimes       Int?     @default(0)
+  favoriteBarber      String?
+  platform            String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Restrict)
+  roleId String
+
+  appointmentsAsClient Appointment[] @relation("ClientToAppointment")
+  appointmentsAsBarber Appointment[] @relation("BarberToAppointment")
+  rating               Rating[]
+
+  @@map("users")
+}
+
+model Role {
+  id          String   @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
+  name        String   @unique
+  type        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users             User[]
+  permissions       Permission[]
+  clientPermissions ClientPermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
+  name        String
+  method      Method
+  route       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  role Role[]
+
+  @@unique([method, route])
+  @@map("permissions")
+}
+
+model ClientPermission {
+  id          String   @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
+  name        String   @unique
+  sort        Int
+  menu        String
+  path        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  role Role[]
+
+  @@map("client_permissions")
+}
+
+model Appointment {
+  id        String            @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
+  dateTime  DateTime
+  specialty String
+  status    AppointmentStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  client      User         @relation("ClientToAppointment", fields: [clientId], references: [id], onDelete: Restrict)
+  clientId    String
+  barber      User         @relation("BarberToAppointment", fields: [barberId], references: [id], onDelete: Restrict)
+  barberId    String
+  transaction Transaction?
+
+  @@map("appointments")
+}
+
+model Transaction {
+  id        String   @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
+  service   String
+  amount    Float
+  rating    Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
+  appointmentId String      @unique
+
+  @@map("transactions")
+}
+
+model Rating {
+  id      String @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
+  average Float
+  count   Int
+
+  barber   User   @relation(fields: [barberId], references: [id])
+  barberId String
+
+  @@map("ratings")
+}
+
+enum Method {
+  GET
+  POST
+  PUT
+  DELETE
+}
+
+enum AppointmentStatus {
+  PENDING
+  CANCELLED
+  COMPLETED
+}
