@@ -28,6 +28,7 @@ export async function POST(req: Request) {
           blocked: true,
           confirmed: true,
           address: true,
+          rating: true,
           otp: true,
           role: {
             select: {
