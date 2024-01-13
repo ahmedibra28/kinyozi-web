@@ -55,7 +55,8 @@ export async function POST(req: Request) {
         blocked: false,
         ...(type === 'BARBER'
           ? {
-              barbershopId,
+              barbershopId: Number(barbershopId),
+              status: 'PENDING',
               barbershopName,
               roleId: 'a75POUlJzMDmaJtz0JCxp',
             }

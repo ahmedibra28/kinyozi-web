@@ -10,8 +10,6 @@ export interface AppointmentType extends IAppointment {
 
 export async function POST(req: NextApiRequestExtended) {
   try {
-    // get whole days appointments
-
     let appointments = await prisma.appointment.findMany({
       where: {
         dateTime: {

@@ -16,6 +16,8 @@ export async function GET(req: NextApiRequestExtended) {
         mobile: true,
         image: true,
         address: true,
+        barbershopId: true,
+        status: true,
         role: {
           select: {
             type: true,

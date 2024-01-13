@@ -10,6 +10,7 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url)
     const q = searchParams.get('q')
+    const status = searchParams.get('status')
 
     const query = q
       ? {
@@ -18,12 +19,14 @@ export async function GET(req: Request) {
           platform: 'MOBILE',
           confirmed: true,
           blocked: false,
+          ...(status && { status: 'ACTIVE' }),
         }
       : {
           role: { type: 'BARBER' },
           platform: 'MOBILE',
           confirmed: true,
           blocked: false,
+          ...(status && { status: 'ACTIVE' }),
         }
 
     const page = parseInt(searchParams.get('page') as string) || 1
@@ -33,6 +36,15 @@ export async function GET(req: Request) {
     const [result, total] = await Promise.all([
       prisma.user.findMany({
         where: query,
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          mobile: true,
+          address: true,
+          barbershopId: true,
+          status: true,
+        },
         skip,
         take: pageSize,
         orderBy: { createdAt: 'desc' },

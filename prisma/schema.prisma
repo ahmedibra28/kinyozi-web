@@ -8,27 +8,27 @@ datasource db {
 }
 
 model User {
-  id                  String   @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
-  email               String   @unique
+  id                  String        @id @default(dbgenerated("nanoid()")) @db.VarChar(21)
+  email               String        @unique
   name                String
   image               String?
-  mobile              Int      @unique
+  mobile              Int           @unique
   address             String?
   bio                 String?
   password            String
-  confirmed           Boolean  @default(false)
-  blocked             Boolean  @default(false)
+  confirmed           Boolean       @default(false)
+  blocked             Boolean       @default(false)
   resetPasswordToken  String?
   resetPasswordExpire BigInt?
   otp                 String?
-  barbershopId        String?
-  barbershopName      String?
-  numberOfTimes       Int?     @default(0)
+  barbershopId        Int?
+  status              BarberStatus?
+  numberOfTimes       Int?          @default(0)
   favoriteBarber      String?
   platform            String?
   pushToken           String?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
 
   role   Role   @relation(fields: [roleId], references: [id], onDelete: Restrict)
   roleId String
@@ -139,4 +139,10 @@ enum AppointmentStatus {
   PENDING
   CANCELLED
   COMPLETED
+}
+
+enum BarberStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
 }

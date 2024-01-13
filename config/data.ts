@@ -275,6 +275,13 @@ const permissions = [
     name: 'Mobile - Barbers',
     method: 'GET',
   },
+  {
+    id: '-6qLQx55i6rg-gqCNOgIn',
+    description: 'Update Barber Status',
+    route: '/api/mobile/barbers/:id',
+    name: 'Mobile - Barbers',
+    method: 'PUT',
+  },
   // Appointments
   {
     id: '7KXhE9P2Jg5QyZgjxHg8K',
