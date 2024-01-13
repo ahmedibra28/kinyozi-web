@@ -43,6 +43,7 @@ export async function GET(req: Request) {
           mobile: true,
           address: true,
           barbershopId: true,
+          barbershopName: true,
           status: true,
         },
         skip,

@@ -22,6 +22,7 @@ model User {
   resetPasswordExpire BigInt?
   otp                 String?
   barbershopId        Int?
+  barbershopName      String?
   status              BarberStatus?
   numberOfTimes       Int?          @default(0)
   favoriteBarber      String?

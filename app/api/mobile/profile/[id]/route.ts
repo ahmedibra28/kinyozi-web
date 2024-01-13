@@ -14,7 +14,8 @@ export async function PUT(req: Request, { params }: Params) {
   try {
     await isAuth(req, params)
 
-    const { name, address, pushToken } = await req.json()
+    const { name, address, pushToken, barbershopId, barbershopName } =
+      await req.json()
 
     const object = await prisma.user.findUnique({
       where: { id: `${params.id}`, platform: 'MOBILE' },
@@ -28,6 +29,10 @@ export async function PUT(req: Request, { params }: Params) {
         name: name || object.name,
         address: address || object.address,
         pushToken: pushToken || object.pushToken,
+        barbershopId: barbershopId || object.barbershopId,
+        barbershopName: barbershopName || object.barbershopName,
+        ...(barbershopId &&
+          object?.barbershopId !== barbershopId && { status: 'PENDING' }),
       },
     })
 
