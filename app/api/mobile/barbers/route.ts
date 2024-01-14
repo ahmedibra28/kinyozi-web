@@ -35,7 +35,7 @@ export async function GET(req: Request) {
 
     const [result, total] = await Promise.all([
       prisma.user.findMany({
-        where: query,
+        where: query as any,
         select: {
           id: true,
           name: true,
@@ -50,7 +50,7 @@ export async function GET(req: Request) {
         take: pageSize,
         orderBy: { createdAt: 'desc' },
       }),
-      prisma.user.count({ where: query }),
+      prisma.user.count({ where: query as any }),
     ])
 
     const pages = Math.ceil(total / pageSize)
