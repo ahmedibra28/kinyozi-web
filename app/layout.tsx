@@ -23,6 +23,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
+      <head>
+        <link rel='icon' href='/favicon.ico' sizes='any' />
+      </head>
+
       <body
         className={`${roboto.className} bg-gray-100`}
         suppressHydrationWarning={true}
@@ -32,7 +36,7 @@ export default function RootLayout({
             <div>
               <Link href='/' className='w-24 normal-case text-xl'>
                 <Image
-                  src='https://ahmedibra.com/logo.png'
+                  src='/logo.png'
                   width={40}
                   height={40}
                   alt='logo'

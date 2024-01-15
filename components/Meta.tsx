@@ -8,18 +8,17 @@ interface Props {
 }
 
 const Meta = ({
-  title = 'Full-Stack Developer In Somalia | Ahmed Ibrahim',
-  description = `I'm a Full Stack Developer with 9+ years of experience in designing and developing user interfaces, testing, debugging, and training staff within modern technologies. Proven ability in optimizing web functionalities that improve data retrieval and workflow efficiencies.
-  `,
-  image: outsideImage = 'https://ahmedibra.com/logo.png',
+  title = 'Kinyozi App',
+  description = `Kinyozi App is a barber appointment app that allows you to book an appointment with your favorite barber, and also allows you to pay for the service online.`,
+  image: outsideImage = 'https://kinyozi.app/logo.png',
   asPath = '/',
   author = 'Ahmed Ibrahim',
   keyword = 'Ahmed',
 }: Props) => {
-  const url = `https://ahmedibra.com${asPath}`
+  const url = `https://kinyozi.app${asPath}`
   const image = outsideImage
-    ? `https://ahmedibra.com${outsideImage}`
-    : `https://ahmedibra.com/logo.png`
+    ? `https://kinyozi.app${outsideImage}`
+    : `https://kinyozi.app/logo.png`
 
   return {
     // viewport: {
@@ -31,7 +30,7 @@ const Meta = ({
     description: description ? description : description,
     image: image,
 
-    metadataBase: new URL('https://ahmedibra.com'),
+    metadataBase: new URL('https://kinyozi.app'),
     alternates: {
       canonical: url,
       languages: {
@@ -45,13 +44,12 @@ const Meta = ({
       description: description ? description : description,
     },
     keywords: [
-      `${keyword} Ahmed Ibrahim, Ahmed Ibrahim Samow, Next.js, Web & Mobile Development, App Development, Design Agency, Web Design, eCommerce, Websites, Web Solutions, Business Growth, Software Development, Custom Software Development, Custom Web Design, Somalia, Somali Web Design, Somali Web Development, SEO Optimization, Marketing,
-    Branding, USSD, EVC Plus`,
+      `${keyword} Kinyozi, kinyozi app, Ahmed Ibrahim, Ahmed Ibrahim Samow`,
     ],
     authors: [
       {
         name: author ? author : author,
-        url: 'https://ahmedibra.com',
+        url: 'https://kinyozi.app',
       },
     ],
     publisher: author ? author : author,
@@ -109,7 +107,7 @@ const Meta = ({
       yandex: 'yandex',
       yahoo: 'yahoo',
       other: {
-        me: ['info@ahmedibra.com', 'http://ahmedibra.com'],
+        me: ['info@kinyozi.app', 'http://kinyozi.app'],
       },
     },
   }

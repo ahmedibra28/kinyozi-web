@@ -24,9 +24,9 @@ const FormContainer: React.FC<Props> = ({ children, title, margin = '' }) => {
             <div>CONTACT</div>
             <a
               className='text-gray-500 underline font-light'
-              href='mailto:info@ahmedibra.com'
+              href='mailto:info@kinyozi.app'
             >
-              info@ahmedibra.com
+              info@kinyozi.app
             </a>
           </div>
         </div>
