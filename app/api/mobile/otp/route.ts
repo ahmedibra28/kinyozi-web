@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     if (user.blocked || !user.confirmed)
       return getErrorResponse(`User blocked or not confirmed`)
 
-    if (allowedNumber.includes(user.mobile)) {
+    if (allowedNumber.includes(user.mobile?.toString())) {
       // login automatically if mobile number is allowed
 
       await prisma.user.update({
