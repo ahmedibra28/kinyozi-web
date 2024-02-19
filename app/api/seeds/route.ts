@@ -8,7 +8,7 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url)
     const secret = searchParams.get('secret')
-    const option = searchParams.get('option')
+    // const option = searchParams.get('option')
 
     if (!secret || secret !== 'ts')
       return getErrorResponse('Invalid secret', 401)
@@ -29,12 +29,12 @@ export async function GET(req: Request) {
     })
 
     // Delete all existing data if option is reset
-    if (option === 'reset') {
-      await prisma.user.deleteMany({})
-      await prisma.permission.deleteMany({})
-      await prisma.clientPermission.deleteMany({})
-      await prisma.role.deleteMany({})
-    }
+    // if (option === 'reset') {
+    //   await prisma.user.deleteMany({})
+    //   await prisma.permission.deleteMany({})
+    //   await prisma.clientPermission.deleteMany({})
+    //   await prisma.role.deleteMany({})
+    // }
 
     // Create roles or update if exists
     await prisma.$transaction(async (prisma) => {

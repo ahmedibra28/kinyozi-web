@@ -311,6 +311,13 @@ const permissions = [
     name: 'Mobile - Appointments',
     method: 'GET',
   },
+  {
+    id: '7KX7E9P2Jg5QyZgjxHg81',
+    description: 'Get Appointments by Barbershop ID',
+    route: '/api/mobile/appointments/barbershop/:id',
+    name: 'Mobile - Appointments',
+    method: 'GET',
+  },
 
   // Transactions
   {
