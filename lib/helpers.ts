@@ -61,6 +61,6 @@ export async function getResetPasswordToken() {
 export async function generateToken(id: string) {
   const JWT_SECRET = getEnvVariable('JWT_SECRET')
   return jwt.sign({ id }, JWT_SECRET, {
-    expiresIn: '1d',
+    expiresIn: '30d',
   })
 }
