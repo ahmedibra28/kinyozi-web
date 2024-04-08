@@ -19,14 +19,14 @@ export async function GET(req: Request) {
           platform: 'MOBILE',
           confirmed: true,
           blocked: false,
-          ...(status && { status: 'ACTIVE' }),
+          // ...(status && { status: 'ACTIVE' }),
         }
       : {
           role: { type: 'BARBER' },
           platform: 'MOBILE',
           confirmed: true,
           blocked: false,
-          ...(status && { status: 'ACTIVE' }),
+          // ...(status && { status: 'ACTIVE' }),
         }
 
     const page = parseInt(searchParams.get('page') as string) || 1
@@ -42,8 +42,8 @@ export async function GET(req: Request) {
           image: true,
           mobile: true,
           address: true,
-          barbershopId: true,
-          barbershopName: true,
+          // barbershopId: true,
+          // barbershopName: true,
           status: true,
         },
         skip,

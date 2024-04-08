@@ -12,8 +12,8 @@ export async function POST(req: Request) {
       address,
       numberOfTimes,
       favoriteBarber,
-      barbershopId,
-      barbershopName,
+      // barbershopId,
+      // barbershopName,
       type,
     } = await req.json()
 
@@ -55,9 +55,9 @@ export async function POST(req: Request) {
         blocked: false,
         ...(type === 'BARBER'
           ? {
-              barbershopId: Number(barbershopId),
+              // barbershopId: Number(barbershopId),
               status: 'PENDING',
-              barbershopName,
+              // barbershopName,
               roleId: 'a75POUlJzMDmaJtz0JCxp',
             }
           : {
