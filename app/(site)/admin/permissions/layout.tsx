@@ -12,5 +12,9 @@ export default function PermissionsLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <div>{children}</div>
+  return (
+    <div className='mx-auto max-w-6xl'>
+      <main className='flex flex-col'>{children}</main>
+    </div>
+  )
 }
