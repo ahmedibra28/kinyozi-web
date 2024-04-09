@@ -4,7 +4,7 @@ import { FaAppStore, FaGooglePlay } from 'react-icons/fa6'
 export default function Home() {
   return (
     <main
-      className='flex flex-col bg-gray-100 p-0 m-0 max-h-[60vh]s mb-10'
+      className='flex flex-col bg-gray-100 p-0 m-0 mb-10'
       style={
         {
           // backgroundImage: 'url(/wave.svg); background-repeat: no-repeat;',
@@ -30,7 +30,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className='flex flex-col lg:flex-row gap-x-3 justify-center md:justify-start'>
+          <div className='flex-col lg:flex-row gap-x-3 justify-center md:justify-start hidden md:flex'>
             <button className='bg-gray-700 border-2 border-gray-300 px-4 py-2 w-60 text-white rounded-2xl shadow-md flex items-center text-start gap-x-2 hover:scale-105 duration-700 mx-auto lg:mx-0'>
               <FaAppStore className='text-3xl' />
               <span>
@@ -62,6 +62,28 @@ export default function Home() {
             alt='kinyozi app'
             className='mx-auto w-[50%] lg:w-[80%] duration-1000'
           />
+
+          <div className='flex flex-row gap-x-3 justify-center md:justify-center md:hidden mt-10 text-xs'>
+            <button className='bg-gray-700 border-2 border-gray-300 px-2 py-2 w-40 text-white rounded-2xl shadow-md flex items-center text-start gap-x-2 hover:scale-105 duration-700 mx-auto lg:mx-0'>
+              <FaAppStore className='text-xl' />
+              <span>
+                <span>Download on the</span> <br />
+                <span className='font-bold'>App Store</span>
+              </span>
+            </button>
+
+            <a
+              href='https://play.google.com/store/apps/details?id=com.kinyozi.app'
+              target='_blank'
+              className='bg-gray-700 border-2 border-gray-300 px-2 py-2 w-40 text-white rounded-2xl shadow-md flex items-center text-start gap-x-2 hover:scale-105 duration-700 mx-auto lg:mx-0'
+            >
+              <FaGooglePlay className='text-xl' />
+              <span>
+                <span>Get in on</span> <br />
+                <span className='font-bold'>Google Play</span>
+              </span>
+            </a>
+          </div>
         </div>
       </div>
     </main>

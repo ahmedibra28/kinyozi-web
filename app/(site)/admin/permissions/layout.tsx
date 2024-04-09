@@ -1,5 +1,6 @@
 import React from 'react'
 import Meta from '@/components/Meta'
+import Footer from '@/components/Footer'
 
 export const metadata = {
   ...Meta({
@@ -14,7 +15,9 @@ export default function PermissionsLayout({
 }) {
   return (
     <div className='mx-auto max-w-6xl'>
-      <main className='flex flex-col'>{children}</main>
+      <main className='flex flex-col'>
+        {children} <Footer />
+      </main>
     </div>
   )
 }

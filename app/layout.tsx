@@ -3,7 +3,6 @@ import './globals.css'
 import { Roboto } from 'next/font/google'
 import Navigation from '@/components/Navigation'
 import Providers from '@/lib/provider'
-import Footer from '@/components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -49,7 +48,6 @@ export default function RootLayout({
           <div className='mx-autos px-2'>
             <main className='min-h-[85.5vh]'>{children}</main>
           </div>
-          <Footer />
         </Providers>
       </body>
     </html>
