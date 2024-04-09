@@ -1,84 +1,58 @@
-import FormContainer from '@/components/FormContainer'
 import Image from 'next/image'
+import { FaAppStore, FaGooglePlay } from 'react-icons/fa6'
 
 export default function Home() {
   return (
-    <div className='container'>
-      <div className='py-16 px-6 sm:px-12 lg:px-24'>
-        <div className='max-w-6xl mx-auto'>
-          <div className='flex flex-col md:flex-row items-center justify-between'>
-            <div className='md:w-1/2 mb-8 md:mb-0'>
-              <h1 className='text-4xl lg:text-5xl font-bold text-gray-900 mb-6'>
-                Book Your Next Barber Appointment
-              </h1>
-              <p className='text-xl text-gray-500 mb-8'>
-                Discover the easiest way to schedule appointments with your
-                favorite barbers.
-              </p>
+    <div className='max-w-6xl mx-auto p-3 flex flex-col md:flex-row gap-y-10 md:justify-between items-center h-screen'>
+      <div className='space-y-10 w-full md:w-[48%] mx-auto  md:-mt-20 duration-1000'>
+        <h1 className='text-4xl md:text-6xl lg:text-7xl font-bold text-primary duration-1000 text-center md:text-start'>
+          Book Your Next Haircut with Ease
+        </h1>
+        <div className='text-center md:text-start text-gray-700 space-y-2'>
+          <p> Discover the easiest way to book your next haircut. </p>
+          <p>
+            <strong>Kinyozi App </strong> streamlines the process, connecting
+            you with top barbers for personalized grooming experiences.
+          </p>
+          <p>Say goodbye to long waits and missed appointments.</p>
 
-              <section className='text-gray-600 body-font '>
-                <div className='container px-5 py-12 mx-auto flex items-center md:flex-row flex-col'>
-                  <div className='flex md:mr-auto mx-auto items-center flex-shrink-0 space-x-4'>
-                    <a
-                      href='https://play.google.com/store/apps/details?id=com.kinyozi.app&hl=en_US'
-                      target='_blank'
-                      className='bg-gray-200 inline-flex py-3 px-5 rounded-lg items-center hover:bg-gray-200 focus:outline-none'
-                    >
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='currentColor'
-                        className='w-6 h-6'
-                        viewBox='0 0 512 512'
-                      >
-                        <path d='M99.617 8.057a50.191 50.191 0 00-38.815-6.713l230.932 230.933 74.846-74.846L99.617 8.057zM32.139 20.116c-6.441 8.563-10.148 19.077-10.148 30.199v411.358c0 11.123 3.708 21.636 10.148 30.199l235.877-235.877L32.139 20.116zM464.261 212.087l-67.266-37.637-81.544 81.544 81.548 81.548 67.273-37.64c16.117-9.03 25.738-25.442 25.738-43.908s-9.621-34.877-25.749-43.907zM291.733 279.711L60.815 510.629c3.786.891 7.639 1.371 11.492 1.371a50.275 50.275 0 0027.31-8.07l266.965-149.372-74.849-74.847z'></path>
-                      </svg>
-                      <span className='ml-4 flex items-start flex-col leading-none'>
-                        <span className='text-xs text-gray-600 mb-1'>
-                          GET IT ON
-                        </span>
-                        <span className='title-font font-medium'>
-                          Google Play
-                        </span>
-                      </span>
-                    </a>
-                    <a
-                      href='https://play.google.com/store/apps/details?id=com.kinyozi.app&hl=en_US'
-                      target='_blank'
-                      className='bg-gray-200 inline-flex py-3 px-5 rounded-lg items-center hover:bg-gray-200 focus:outline-none'
-                    >
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='currentColor'
-                        className='w-6 h-6'
-                        viewBox='0 0 305 305'
-                      >
-                        <path d='M40.74 112.12c-25.79 44.74-9.4 112.65 19.12 153.82C74.09 286.52 88.5 305 108.24 305c.37 0 .74 0 1.13-.02 9.27-.37 15.97-3.23 22.45-5.99 7.27-3.1 14.8-6.3 26.6-6.3 11.22 0 18.39 3.1 25.31 6.1 6.83 2.95 13.87 6 24.26 5.81 22.23-.41 35.88-20.35 47.92-37.94a168.18 168.18 0 0021-43l.09-.28a2.5 2.5 0 00-1.33-3.06l-.18-.08c-3.92-1.6-38.26-16.84-38.62-58.36-.34-33.74 25.76-51.6 31-54.84l.24-.15a2.5 2.5 0 00.7-3.51c-18-26.37-45.62-30.34-56.73-30.82a50.04 50.04 0 00-4.95-.24c-13.06 0-25.56 4.93-35.61 8.9-6.94 2.73-12.93 5.09-17.06 5.09-4.64 0-10.67-2.4-17.65-5.16-9.33-3.7-19.9-7.9-31.1-7.9l-.79.01c-26.03.38-50.62 15.27-64.18 38.86z'></path>
-                        <path d='M212.1 0c-15.76.64-34.67 10.35-45.97 23.58-9.6 11.13-19 29.68-16.52 48.38a2.5 2.5 0 002.29 2.17c1.06.08 2.15.12 3.23.12 15.41 0 32.04-8.52 43.4-22.25 11.94-14.5 17.99-33.1 16.16-49.77A2.52 2.52 0 00212.1 0z'></path>
-                      </svg>
-                      <span className='ml-4 flex items-start flex-col leading-none'>
-                        <span className='text-xs text-gray-600 mb-1'>
-                          Download on the
-                        </span>
-                        <span className='title-font font-medium'>
-                          App Store
-                        </span>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </section>
-            </div>
-            <div className='md:w-1/2'>
-              <Image
-                src='/kinyozi.png'
-                width={200}
-                height={200}
-                alt='Barbershop App'
-                className='h-auto w-[70%]'
-              />
-            </div>
-          </div>
+          <p>
+            Download now and experience the future of seamless barber bookings.
+          </p>
         </div>
+
+        <div className='flex flex-col lg:flex-row gap-x-3 justify-center md:justify-start'>
+          <button className='bg-gray-700 border-2 border-gray-300 px-4 py-2 w-60 text-white rounded-2xl shadow-md flex items-center text-start gap-x-2 hover:scale-105 duration-700 mx-auto lg:mx-0'>
+            <FaAppStore className='text-3xl' />
+            <span>
+              <span>Download on the</span> <br />
+              <span className='font-bold text-lg'>App Store</span>
+            </span>
+          </button>
+
+          <a
+            href='https://play.google.com/store/apps/details?id=com.kinyozi.app'
+            target='_blank'
+            className='bg-gray-700 border-2 border-gray-300 px-4 py-2 w-60 text-white rounded-2xl shadow-md flex items-center text-start gap-x-2 hover:scale-105 duration-700 mx-auto lg:mx-0'
+          >
+            <FaGooglePlay className='text-3xl' />
+            <span>
+              <span>Get in on</span> <br />
+              <span className='font-bold text-lg'>Google Play</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div className=' w-full md:w-[48%] mx-auto  md:-mt-20 duration-1000 mb-5 pb-5'>
+        <Image
+          src='/kinyozi.png'
+          width={1000}
+          height={1000}
+          quality={100}
+          alt='kinyozi app'
+          className='mx-auto w-[80%] lg:w-full duration-1000'
+        />
       </div>
     </div>
   )
