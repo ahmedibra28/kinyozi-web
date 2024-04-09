@@ -4,7 +4,7 @@ import { FaAppStore, FaGooglePlay } from 'react-icons/fa6'
 export default function Home() {
   return (
     <main
-      className='flex flex-col bg-gray-100 p-0 m-0 max-h-[60vh]'
+      className='flex flex-col bg-gray-100 p-0 m-0 max-h-[60vh]s mb-10'
       style={
         {
           // backgroundImage: 'url(/wave.svg); background-repeat: no-repeat;',
